@@ -17,5 +17,8 @@
     "slug",
     "slugify"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "slug": "^0.9.1"
+  }
 }
