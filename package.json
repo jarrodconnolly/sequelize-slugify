@@ -11,11 +11,10 @@
     "url": "https://github.com/jarrodconnolly/sequelize-slugify/issues"
   },
   "keywords": [
-    "orm",
-    "nodejs",
-    "sequelize",
     "slug",
-    "slugify"
+    "slugify",
+    "sequelize",
+    "orm"
   ],
   "license": "MIT",
   "dependencies": {
