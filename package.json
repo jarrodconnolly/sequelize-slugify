@@ -1,7 +1,7 @@
 {
   "name": "sequelize-slugify",
   "description": "Add slugs to sequelize models",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Jarrod Connolly <jarrod@nestedquotes.ca>",
   "repository": {
     "type": "git",
@@ -10,6 +10,7 @@
   "bugs": {
     "url": "https://github.com/jarrodconnolly/sequelize-slugify/issues"
   },
+  "main": "index",
   "keywords": [
     "slug",
     "slugify",
@@ -18,6 +19,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "lodash": "^3.10.0",
     "slug": "^0.9.1"
   }
 }
