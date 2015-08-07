@@ -4,10 +4,23 @@
 
 sequelize-slugify is a model plugin for Sequelize that automatically creates and updates unique slugs for your models.
 
+So far this module has only been tested with the PostgreSQL database.
 
 ## Installation
 
 `npm install sequelize-slugify`
+
+## Requirments
+
+You must place a slug field on your model something like this.
+
+```javascript
+slug: {
+    type: DataTypes.STRING,
+    unique: true
+}
+```
+
 
 ## Usage Example
 
