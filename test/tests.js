@@ -6,7 +6,15 @@
 'use strict';
 
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize('postgres://jarrod:jarrod@localhost:5432/sequelize_slugify_test', {logging: false});
+
+var dbUsername = process.env.DB_USER || 'postgres';
+var dbPassword = process.env.DB_PW || null;
+var sequelize = new Sequelize('sequelize_slugify_test', dbUsername, dbPassword, {
+    host: 'localhost',
+    dialect: 'postgres',
+    logging: false
+});
+
 var SequalizeSlugify = require('../index');
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
