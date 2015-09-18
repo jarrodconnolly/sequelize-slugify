@@ -1,7 +1,7 @@
 {
   "name": "sequelize-slugify",
   "description": "Add slugs to sequelize models",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "Jarrod Connolly <jarrod@nestedquotes.ca>",
   "repository": {
     "type": "git",
@@ -19,16 +19,16 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "lodash": "^3.10.0",
+    "lodash": "^3.10.1",
     "slug": "^0.9.1"
   },
   "devDependencies": {
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
-    "mocha": "^2.2.5",
+    "mocha": "^2.3.2",
     "pg": "^4.4.1",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^3.5.1"
+    "sequelize": "^3.9.0"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha ./test/*"
