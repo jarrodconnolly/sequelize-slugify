@@ -15,6 +15,7 @@
     "slug",
     "slugify",
     "sequelize",
+    "sequelize-plugin",
     "orm"
   ],
   "license": "MIT",
