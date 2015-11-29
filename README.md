@@ -10,7 +10,7 @@ So far this module has only been tested with the PostgreSQL database.
 
 `npm install sequelize-slugify`
 
-## Requirments
+## Requirements
 
 You must place a slug field on your model something like this.
 
@@ -20,7 +20,20 @@ slug: {
     unique: true
 }
 ```
+## Options
 
+slugifyModel takes an options array as it's second parameter.
+
+```javascript
+SequalizeSlugify.slugifyModel(User, {
+    source: ['givenName'],
+    overwrite: false
+});
+```
+Avaliable Options
+
+- `source` - (Required) Array of field names in the model to build the slug from
+- `overwrite` = (Default TRUE) Change the slug if the source fields change once the slug has already been built
 
 ## Usage Example
 
@@ -50,8 +63,8 @@ module.exports = function(sequelize, DataTypes) {
         });
 
     SequalizeSlugify.slugifyModel(User, {
-            source: ['givenName', 'familyName']
-        });
+        source: ['givenName', 'familyName']
+    });
 
     return User;
 };

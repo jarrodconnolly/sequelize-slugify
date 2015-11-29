@@ -21,35 +21,43 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-var User = sequelize.define('user', {
-    slug: {
-        type: Sequelize.STRING,
-        unique: true
-    },
-    givenName: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    familyName: {
-        type: Sequelize.STRING,
-        allowNull: false
-    }
-});
+var GetUser = function(modelname) {
+    return sequelize.define(modelname, {
+        slug: {
+            type: Sequelize.STRING,
+            unique: true
+        },
+        givenName: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        familyName: {
+            type: Sequelize.STRING,
+            allowNull: false
+        }
+    });
+};
 
+var User = {};
+var userId = 0;
 describe('sequelize-slugify', function () {
 
-    before(function () {
-        return sequelize.sync({force: true});
-    });
-
     describe('slugs', function () {
+
+        // user a new model for each test
+        beforeEach(function () {
+            User = GetUser('user' + userId);
+            userId++;
+            return sequelize.sync({force: true});
+        });
+
         it('should create a slug from a single field', function () {
             SequalizeSlugify.slugifyModel(User, {
                 source: ['givenName']
             });
-            return User.create({givenName: 'Firstname', familyName: 'Lastname'})
+            return User.create({givenName: 'Suzan', familyName: 'Scheiber'})
                 .then(function (user) {
-                    return expect(user.slug).to.equal('firstname');
+                    return expect(user.slug).to.equal('suzan');
                 });
         });
 
@@ -57,9 +65,9 @@ describe('sequelize-slugify', function () {
             SequalizeSlugify.slugifyModel(User, {
                 source: ['givenName', 'familyName']
             });
-            return User.create({givenName: 'John', familyName: 'Hancock'})
+            return User.create({givenName: 'Ernesto', familyName: 'Elsass'})
                 .then(function (user) {
-                    return expect(user.slug).to.equal('john-hancock');
+                    return expect(user.slug).to.equal('ernesto-elsass');
                 });
         });
 
@@ -67,11 +75,42 @@ describe('sequelize-slugify', function () {
             SequalizeSlugify.slugifyModel(User, {
                 source: ['givenName', 'familyName']
             });
-            return User.create({givenName: 'Person', familyName: 'Robot'})
+            return User.create({givenName: 'Cleora', familyName: 'Curley'})
                 .then(function () {
-                    return User.create({givenName: 'Person', familyName: 'Robot'})
+                    return User.create({givenName: 'Cleora', familyName: 'Curley'})
                         .then(function(user) {
-                            return expect(user.slug).to.equal('person-robot-1');
+                            return expect(user.slug).to.equal('cleora-curley-1');
+                        });
+                });
+        });
+
+        it('should overwrite slug by default', function () {
+            SequalizeSlugify.slugifyModel(User, {
+                source: ['givenName']
+            });
+            return User.create({givenName: 'Rupert', familyName: 'Rinaldi'})
+                .then(function (user) {
+                    user.givenName = 'Genie';
+                    user.familyName = 'Gayden';
+                    return user.save()
+                        .then(function(updatedUser) {
+                            return expect(updatedUser.slug).to.equal('genie');
+                        });
+                });
+        });
+
+        it('should NOT overwrite slug if option says not to', function () {
+            SequalizeSlugify.slugifyModel(User, {
+                source: ['givenName'],
+                overwrite: false
+            });
+            return User.create({givenName: 'Miquel', familyName: 'Mceachin'})
+                .then(function (user) {
+                    user.givenName = 'Sallie';
+                    user.familyName = 'Shira';
+                    return user.save()
+                        .then(function(updatedUser) {
+                            return expect(updatedUser.slug).to.equal('miquel');
                         });
                 });
         });
