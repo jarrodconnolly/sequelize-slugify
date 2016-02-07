@@ -15,7 +15,7 @@ var sequelize = new Sequelize('sequelize_slugify_test', dbUsername, dbPassword, 
     logging: false
 });
 
-var SequalizeSlugify = require('../index');
+var SequelizeSlugify = require('../index');
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
@@ -52,7 +52,7 @@ describe('sequelize-slugify', function () {
         });
 
         it('should create a slug from a single field', function () {
-            SequalizeSlugify.slugifyModel(User, {
+            SequelizeSlugify.slugifyModel(User, {
                 source: ['givenName']
             });
             return User.create({givenName: 'Suzan', familyName: 'Scheiber'})
@@ -62,7 +62,7 @@ describe('sequelize-slugify', function () {
         });
 
         it('should create a slug from multiple fields', function () {
-            SequalizeSlugify.slugifyModel(User, {
+            SequelizeSlugify.slugifyModel(User, {
                 source: ['givenName', 'familyName']
             });
             return User.create({givenName: 'Ernesto', familyName: 'Elsass'})
@@ -72,7 +72,7 @@ describe('sequelize-slugify', function () {
         });
 
         it('should increment slug suffix if it already exists', function () {
-            SequalizeSlugify.slugifyModel(User, {
+            SequelizeSlugify.slugifyModel(User, {
                 source: ['givenName', 'familyName']
             });
             return User.create({givenName: 'Cleora', familyName: 'Curley'})
@@ -85,7 +85,7 @@ describe('sequelize-slugify', function () {
         });
 
         it('should overwrite slug by default', function () {
-            SequalizeSlugify.slugifyModel(User, {
+            SequelizeSlugify.slugifyModel(User, {
                 source: ['givenName']
             });
             return User.create({givenName: 'Rupert', familyName: 'Rinaldi'})
@@ -100,7 +100,7 @@ describe('sequelize-slugify', function () {
         });
 
         it('should NOT overwrite slug if option says not to', function () {
-            SequalizeSlugify.slugifyModel(User, {
+            SequelizeSlugify.slugifyModel(User, {
                 source: ['givenName'],
                 overwrite: false
             });

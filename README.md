@@ -25,7 +25,7 @@ slug: {
 slugifyModel takes an options array as it's second parameter.
 
 ```javascript
-SequalizeSlugify.slugifyModel(User, {
+SequelizeSlugify.slugifyModel(User, {
     source: ['givenName'],
     overwrite: false
 });
@@ -39,7 +39,7 @@ Avaliable Options
 
 ```javascript
 
-var SequalizeSlugify = require('sequelize-slugify');
+var SequelizeSlugify = require('sequelize-slugify');
 
 module.exports = function(sequelize, DataTypes) {
     var User = sequelize.define('User', {
@@ -62,7 +62,7 @@ module.exports = function(sequelize, DataTypes) {
             }
         });
 
-    SequalizeSlugify.slugifyModel(User, {
+    SequelizeSlugify.slugifyModel(User, {
         source: ['givenName', 'familyName']
     });
 
