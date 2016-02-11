@@ -134,6 +134,39 @@ describe('sequelize-slugify', function () {
                     return expect(user.slug).to.equal('donald-draper-don-42');
                 });
             });
+
+            it('should fall back on numeric suffixes', function() {
+                SequelizeSlugify.slugifyModel(User, {
+                    source: ['givenName', 'familyName'],
+                    suffixSource: ['nickName', 'age']
+                });
+
+                return User.create({
+                    givenName: 'Gary',
+                    familyName: 'Gray',
+                    nickName: 'Gutsy'
+                }).then(function () {
+                    return User.create({
+                        givenName: 'Gary',
+                        familyName: 'Gray',
+                        nickName: 'Gutsy'
+                    });
+                }).then(function () {
+                    return User.create({
+                        givenName: 'Gary',
+                        familyName: 'Gray',
+                        nickName: 'Gutsy'
+                    });
+                }).then(function () {
+                    return User.create({
+                        givenName: 'Gary',
+                        familyName: 'Gray',
+                        nickName: 'Gutsy'
+                    });
+                }).then(function(user) {
+                    return expect(user.slug).to.equal('gary-gray-gutsy-2');
+                });
+            });
         });
 
         it('should increment slug suffix if it already exists', function () {
