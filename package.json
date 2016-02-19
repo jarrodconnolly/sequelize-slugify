@@ -1,7 +1,7 @@
 {
   "name": "sequelize-slugify",
   "description": "Add slugs to sequelize models",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "Jarrod Connolly <jarrod@nestedquotes.ca>",
   "repository": {
     "type": "git",

@@ -25,21 +25,23 @@ slug: {
 slugifyModel takes an options array as it's second parameter.
 
 ```javascript
-SequelizeSlugify.slugifyModel(User, {
+SequalizeSlugify.slugifyModel(User, {
     source: ['givenName'],
-    overwrite: false
+    overwrite: false,
+    ignoreStrings: ['_']
 });
 ```
 Avaliable Options
 
 - `source` - (Required) Array of field names in the model to build the slug from
 - `overwrite` = (Default TRUE) Change the slug if the source fields change once the slug has already been built
+- `ignoreStrings` = (Default []) Before creating the slug this strings will be ignored in all sources
 
 ## Usage Example
 
 ```javascript
 
-var SequelizeSlugify = require('sequelize-slugify');
+var SequalizeSlugify = require('sequelize-slugify');
 
 module.exports = function(sequelize, DataTypes) {
     var User = sequelize.define('User', {
@@ -62,7 +64,7 @@ module.exports = function(sequelize, DataTypes) {
             }
         });
 
-    SequelizeSlugify.slugifyModel(User, {
+    SequalizeSlugify.slugifyModel(User, {
         source: ['givenName', 'familyName']
     });
 
