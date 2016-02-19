@@ -2,10 +2,13 @@
   "name": "sequelize-slugify",
   "description": "Add slugs to sequelize models",
   "version": "0.3.0",
-  "author": "Jarrod Connolly <jarrod@nestedquotes.ca>",
+  "author": {
+    "name": "Jarrod Connolly",
+    "email": "jarrod@nestedquotes.ca"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jarrodconnolly/sequelize-slugify.git"
+    "url": "git+https://github.com/jarrodconnolly/sequelize-slugify.git"
   },
   "bugs": {
     "url": "https://github.com/jarrodconnolly/sequelize-slugify/issues"
@@ -33,5 +36,29 @@
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha ./test/*"
-  }
+  },
+  "gitHead": "8781d8b12b0dac41b56fa441ab3201e64a974bd7",
+  "homepage": "https://github.com/jarrodconnolly/sequelize-slugify#readme",
+  "_id": "sequelize-slugify@0.3.0",
+  "_shasum": "a4f529d8e1910bed7dff4c6c795c674a7377c984",
+  "_from": "sequelize-slugify@>=0.3.0 <0.4.0",
+  "_npmVersion": "2.14.7",
+  "_nodeVersion": "4.2.1",
+  "_npmUser": {
+    "name": "jarrodconnolly",
+    "email": "jarrod@nestedquotes.ca"
+  },
+  "dist": {
+    "shasum": "a4f529d8e1910bed7dff4c6c795c674a7377c984",
+    "tarball": "http://registry.npmjs.org/sequelize-slugify/-/sequelize-slugify-0.3.0.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "jarrodconnolly",
+      "email": "jarrod@nestedquotes.ca"
+    }
+  ],
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/sequelize-slugify/-/sequelize-slugify-0.3.0.tgz",
+  "readme": "ERROR: No README data found!"
 }
