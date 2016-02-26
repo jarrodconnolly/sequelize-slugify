@@ -33,9 +33,12 @@ SequelizeSlugify.slugifyModel(User, {
 Avaliable Options
 
 - `source` - (Required) Array of field names in the model to build the slug from
+- `suffixSource` - (Optional) Array of field names in the model to use as the source for additional suffixes to make the slug unique (before defaulting to adding numbers to the end of the slug).
 - `overwrite` = (Default TRUE) Change the slug if the source fields change once the slug has already been built
 
-## Usage Example
+## Usage Examples
+
+### Basic Usage
 
 ```javascript
 
@@ -64,6 +67,39 @@ module.exports = function(sequelize, DataTypes) {
 
     SequelizeSlugify.slugifyModel(User, {
         source: ['givenName', 'familyName']
+    });
+
+    return User;
+};
+
+```
+
+### Suffix Sources
+
+```javascript
+
+var SequelizeSlugify = require('sequelize-slugify');
+
+module.exports = function(sequelize, DataTypes) {
+    var Movie = sequelize.define('Movie', {
+            slug: {
+                type: DataTypes.STRING,
+                unique: true
+            },
+            title: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                unique: true
+            },
+            year: {
+                type: DataTypes.INTEGER,
+                allowNull: false
+            }
+        });
+
+    SequelizeSlugify.slugifyModel(Movie, {
+        source: ['title'],
+        suffixSource: ['year']
     });
 
     return User;
