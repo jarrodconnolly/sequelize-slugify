@@ -22,7 +22,7 @@ slug: {
 ```
 ## Options
 
-slugifyModel takes an options array as it's second parameter.
+slugifyModel takes an options object as it's second parameter.
 
 ```javascript
 SequelizeSlugify.slugifyModel(User, {
@@ -102,7 +102,7 @@ module.exports = function(sequelize, DataTypes) {
         suffixSource: ['year']
     });
 
-    return User;
+    return Movie;
 };
 
 ```
