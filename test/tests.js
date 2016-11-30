@@ -9,8 +9,12 @@ var Sequelize = require('sequelize');
 
 var dbUsername = process.env.DB_USER || 'postgres';
 var dbPassword = process.env.DB_PW || null;
-var sequelize = new Sequelize('sequelize_slugify_test', dbUsername, dbPassword, {
-    host: 'localhost',
+var dbDb = process.env.DB_DB || 'sequelize_slugify_test';
+var dbHost = process.env.DB_HOST || 'localhost';
+var dbPort = process.env.DB_PORT || 5432;
+var sequelize = new Sequelize(dbDb, dbUsername, dbPassword, {
+    host: dbHost,
+    port: dbPort,
     dialect: 'postgres',
     logging: false
 });
