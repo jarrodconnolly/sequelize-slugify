@@ -1,0 +1,8 @@
+node_modules
+bower_components
+.idea
+.gitignore
+.travis.yml
+test
+.envrc
+yarn.lock
