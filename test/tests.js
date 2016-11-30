@@ -29,7 +29,8 @@ var GetUser = function(modelname) {
     return sequelize.define(modelname, {
         slug: {
             type: Sequelize.STRING,
-            unique: true
+            unique: true,
+            allowNull: false
         },
         givenName: {
             type: Sequelize.STRING,
