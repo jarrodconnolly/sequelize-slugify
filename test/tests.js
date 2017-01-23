@@ -229,7 +229,7 @@ describe('sequelize-slugify', function () {
                 source: ['givenName']
             });
 
-            const params = {
+            var params = {
                 givenName: 'Rupert',
                 familyName: 'Rinaldi'
             }
@@ -248,7 +248,7 @@ describe('sequelize-slugify', function () {
                 suffixIfExist: false
             });
 
-            const params = {
+            var params = {
                 givenName: 'Rupert',
                 familyName: 'Rinaldi'
             }
