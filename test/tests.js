@@ -249,33 +249,21 @@ describe('sequelize-slugify', function () {
             });
 
             var params = {
-                givenName: 'Rupert',
-                familyName: 'Rinaldi'
+                givenName: 'Sebastien',
+                familyName: 'Bramille'
             }
 
             return User.create(params)
               .then(function (user) {
                   return User.create(params);
               }).catch(function(err) {
-                  const errors = err.errors;
+                  var errors = err.errors;
                   expect(errors).to.exist;
-                  expect(errors.message).to.equal('givenName must be unique');
-                  expect(errors.type).to.equal('unique violation');
+                  expect(errors[0].message).to.equal('slug must be unique');
+                  expect(errors[0].type).to.equal('unique violation');
 
-                  return expect(errors.path).to.equal('givenName');
+                  return expect(errors[0].path).to.equal('slug');
               });
-
-            return User.create({
-                givenName: 'Miquel',
-                familyName: 'Mceachin'
-            }).then(function (user) {
-                user.givenName = 'Sallie';
-                user.familyName = 'Shira';
-
-                return user.save();
-            }).then(function(updatedUser) {
-                return expect(updatedUser.slug).to.equal('miquel');
-            });
         });
 
     });
