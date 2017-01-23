@@ -223,6 +223,61 @@ describe('sequelize-slugify', function () {
                 return expect(updatedUser.slug).to.equal('miquel');
             });
         });
+
+        it('should add prefix to the slug by default', function () {
+            SequelizeSlugify.slugifyModel(User, {
+                source: ['givenName']
+            });
+
+            const params = {
+                givenName: 'Rupert',
+                familyName: 'Rinaldi'
+            }
+
+            return User.create(params)
+              .then(function (user) {
+                  return User.create(params);
+              }).then(function(savedUser) {
+                  return expect(savedUser.slug).to.equal('rupert-1');
+              });
+        });
+
+        it('should NOT add prefix to the slug if option says not to', function () {
+            SequelizeSlugify.slugifyModel(User, {
+                source: ['givenName'],
+                suffixIfExist: false
+            });
+
+            const params = {
+                givenName: 'Rupert',
+                familyName: 'Rinaldi'
+            }
+
+            return User.create(params)
+              .then(function (user) {
+                  return User.create(params);
+              }).catch(function(err) {
+                  const errors = err.errors;
+                  expect(errors).to.exist;
+                  expect(errors.message).to.equal('givenName must be unique');
+                  expect(errors.type).to.equal('unique violation');
+
+                  return expect(errors.path).to.equal('givenName');
+              });
+
+            return User.create({
+                givenName: 'Miquel',
+                familyName: 'Mceachin'
+            }).then(function (user) {
+                user.givenName = 'Sallie';
+                user.familyName = 'Shira';
+
+                return user.save();
+            }).then(function(updatedUser) {
+                return expect(updatedUser.slug).to.equal('miquel');
+            });
+        });
+
     });
 
     after(function () {
