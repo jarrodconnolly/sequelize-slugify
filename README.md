@@ -35,6 +35,7 @@ Available Options
 - `source` - (Required) Array of field names in the model to build the slug from
 - `suffixSource` - (Optional) Array of field names in the model to use as the source for additional suffixes to make the slug unique (before defaulting to adding numbers to the end of the slug).
 - `overwrite` = (Default TRUE) Change the slug if the source fields change once the slug has already been built
+- `suffixIfExist` = (Default TRUE) Add a numerical suffix to the slug if the it already exist
 
 ## Usage Examples
 
