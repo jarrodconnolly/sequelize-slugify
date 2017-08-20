@@ -25,12 +25,12 @@
     "slug": "^0.9.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-as-promised": "^5.2.0",
-    "mocha": "^2.4.5",
-    "pg": "^4.5.1",
+    "chai": "^4.1.1",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^3.5.0",
+    "pg": "^7.1.2",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^3.19.3"
+    "sequelize": "^4.6.0"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha ./test/*"

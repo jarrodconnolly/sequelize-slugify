@@ -27,6 +27,10 @@ var GetUser = function(modelname) {
             type: Sequelize.STRING,
             unique: true
         },
+        alternateSlug: {
+            type: Sequelize.STRING,
+            unique: true
+        },
         givenName: {
             type: Sequelize.STRING,
             allowNull: false
@@ -221,6 +225,21 @@ describe('sequelize-slugify', function () {
                 return user.save();
             }).then(function(updatedUser) {
                 return expect(updatedUser.slug).to.equal('miquel');
+            });
+        });
+
+
+        it('should create a slug using custom slug field', function () {
+            SequelizeSlugify.slugifyModel(User, {
+                source: ['givenName'],
+                column: 'alternateSlug'
+            });
+
+            return User.create({
+                givenName: 'Brobar',
+                familyName: 'Handlemart'
+            }).then(function (user) {
+                return expect(user.alternateSlug).to.equal('brobar');
             });
         });
     });
