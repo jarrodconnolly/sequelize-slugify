@@ -242,6 +242,25 @@ describe('sequelize-slugify', function () {
                 return expect(user.alternateSlug).to.equal('brobar');
             });
         });
+
+        it('should pass slug options to slug module', function () {
+            SequelizeSlugify.slugifyModel(User, {
+                source: ['givenName'],
+                slugOptions: {
+                    replacement: '#',
+                    lower: false
+                }
+            });
+
+            return User.create({
+                givenName: 'Here There',
+                familyName: 'Justified'
+            }).then(function (user) {
+                return expect(user.slug).to.equal('Here#There');
+            });
+        });
+
+
     });
 
     after(function () {
