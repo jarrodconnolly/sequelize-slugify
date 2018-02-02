@@ -47,28 +47,28 @@ Available Options
 
 ```javascript
 
-var SequelizeSlugify = require('sequelize-slugify');
+import SequelizeSlugify from 'sequelize-slugify';
 
-module.exports = function(sequelize, DataTypes) {
-    var User = sequelize.define('User', {
-            slug: {
-                type: DataTypes.STRING,
-                unique: true
-            },
-            emailAddress: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true
-            },
-            givenName: {
-                type: DataTypes.STRING,
-                allowNull: false
-            },
-            familyName: {
-                type: DataTypes.STRING,
-                allowNull: false
-            }
-        });
+export default (sequelize, DataTypes) => {
+    const User = sequelize.define('User', {
+        slug: {
+            type: DataTypes.STRING,
+            unique: true
+        },
+        emailAddress: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+        },
+        givenName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        familyName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+    });
 
     SequelizeSlugify.slugifyModel(User, {
         source: ['givenName', 'familyName']
@@ -76,31 +76,29 @@ module.exports = function(sequelize, DataTypes) {
 
     return User;
 };
-
 ```
 
 ### Suffix Sources
 
 ```javascript
+import SequelizeSlugify from 'sequelize-slugify';
 
-var SequelizeSlugify = require('sequelize-slugify');
-
-module.exports = function(sequelize, DataTypes) {
-    var Movie = sequelize.define('Movie', {
-            slug: {
-                type: DataTypes.STRING,
-                unique: true
-            },
-            title: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true
-            },
-            year: {
-                type: DataTypes.INTEGER,
-                allowNull: false
-            }
-        });
+export default (sequelize, DataTypes) => {
+    const Movie = sequelize.define('Movie', {
+        slug: {
+            type: DataTypes.STRING,
+            unique: true
+        },
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+        },
+        year: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        }
+    });
 
     SequelizeSlugify.slugifyModel(Movie, {
         source: ['title'],
@@ -117,10 +115,10 @@ module.exports = function(sequelize, DataTypes) {
 Using Sequelize `getterMethods` and `VIRTUAL` fields, you can derive slugs from any combination of model attributes using whatever custom logic you may need.
 
 ```javascript
-var SequelizeSlugify = require('sequelize-slugify');
+import SequelizeSlugify from 'sequelize-slugify';
 
-module.exports = function(sequelize, DataTypes) {
-    var User = sequelize.define('User', {
+export default (sequelize, DataTypes) => {
+    const User = sequelize.define('User', {
         email: {
             type: DataTypes.STRING,
         },
