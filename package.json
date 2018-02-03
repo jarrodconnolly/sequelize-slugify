@@ -33,6 +33,6 @@
     "sequelize": "^4.32.3"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha ./test/*"
+    "test": "mocha ./test/*"
   }
 }
