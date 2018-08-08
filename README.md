@@ -1,6 +1,7 @@
 # sequelize-slugify
 
 [![Build Status](https://travis-ci.org/jarrodconnolly/sequelize-slugify.svg?branch=master)](https://travis-ci.org/jarrodconnolly/sequelize-slugify) [![npm](https://img.shields.io/npm/v/sequelize-slugify.svg)](https://www.npmjs.com/package/sequelize-slugify) [![Dependency Status](https://david-dm.org/jarrodconnolly/sequelize-slugify.svg)](https://david-dm.org/jarrodconnolly/sequelize-slugify) ![GitHub license](https://img.shields.io/github/license/jarrodconnolly/sequelize-slugify.svg)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjarrodconnolly%2Fsequelize-slugify.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjarrodconnolly%2Fsequelize-slugify?ref=badge_shield)
 
 sequelize-slugify is a model plugin for Sequelize that automatically creates and updates unique slugs for your models.
 
@@ -147,3 +148,7 @@ export default (sequelize, DataTypes) => {
     return User;
 };
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjarrodconnolly%2Fsequelize-slugify.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjarrodconnolly%2Fsequelize-slugify?ref=badge_large)
