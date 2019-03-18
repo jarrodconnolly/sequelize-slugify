@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 
 ## [Unreleased]
 
+## [0.7.0] - 2019-03-17
+- Switch from using `Model.find` to `Model.findOne` for sequelize v5 deprecations
+- Package upgrades for security warnings
+
 
 ## [0.6.1] - 2018-08-15
 

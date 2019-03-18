@@ -12,8 +12,7 @@ var dbPassword = process.env.DB_PW || null;
 var sequelize = new Sequelize('sequelize_slugify_test', dbUsername, dbPassword, {
     host: 'localhost',
     dialect: 'postgres',
-    logging: false,
-    operatorsAliases: false
+    logging: false
 });
 
 var SequelizeSlugify = require('../index');
