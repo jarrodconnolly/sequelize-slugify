@@ -33,6 +33,6 @@
   },
   "scripts": {
     "test": "mocha $NODE_DEBUG_OPTION ./test/*",
-    "lint": "npx eslint -c .eslintrc.js ."
+    "lint": "eslint -c .eslintrc.js ."
   }
 }
