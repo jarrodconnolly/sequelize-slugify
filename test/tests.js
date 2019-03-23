@@ -61,7 +61,6 @@ describe('sequelize-slugify', function () {
         beforeEach(function () {
             User = GetUser('user' + userId);
             userId++;
-
             return sequelize.sync({ force: true });
         });
 
@@ -78,7 +77,8 @@ describe('sequelize-slugify', function () {
             });
         });
 
-        it('should create a slug from multiple fields', function () {
+
+      it('should create a slug from multiple fields', function () {
             SequelizeSlugify.slugifyModel(User, {
                 source: ['givenName', 'familyName']
             });
@@ -89,6 +89,41 @@ describe('sequelize-slugify', function () {
             }).then(function (user) {
                 return expect(user.slug).to.equal('ernesto-elsass');
             });
+        });
+
+        describe('bulk operations', function() {
+          xit('should bulk update a slug from the Model', function () {
+            SequelizeSlugify.slugifyModel(User, {
+              source: ['givenName']
+            });
+
+            return User.create({
+              givenName: 'Woibrert',
+              familyName: 'Hamazoni'
+            }).then(function() {
+              return User.update({
+                givenName: 'Hazzah'
+              }, {where: {givenName: 'Woibrert'}})
+            }).then(function() {
+              return User.findOne({givenName: 'Hazzah'})
+            }).then(function (user) {
+              return expect(user.slug).to.equal('hazzah');
+            });
+          });
+
+          it('should create a slug during a bulk create', function () {
+            SequelizeSlugify.slugifyModel(User, {
+              source: ['givenName']
+            });
+
+            return User.bulkCreate([
+              {givenName: 'Groyta', familyName: 'Helmerson'},
+              {givenName: 'Weelan', familyName: 'Rolshier'}
+            ]).then(function (user) {
+              expect(user[0].slug).to.equal('groyta');
+              expect(user[1].slug).to.equal('weelan');
+            });
+          });
         });
 
         describe('source suffixes', function () {

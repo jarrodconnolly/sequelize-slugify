@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- N/A
+
+## [0.8.0] - 2019-03-22
+- Hook support for bulkCreate so slugs are added
 
 ## [0.7.0] - 2019-03-17
 - Switch from using `Model.find` to `Model.findOne` for sequelize v5 deprecations
