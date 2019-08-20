@@ -29,7 +29,7 @@
     "mocha": "^6.1.4",
     "pg": "^7.11.0",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^5.10.0"
+    "sequelize": "^5.15.1"
   },
   "scripts": {
     "test": "mocha $NODE_DEBUG_OPTION ./test/*",
