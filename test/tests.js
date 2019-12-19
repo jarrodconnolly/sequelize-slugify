@@ -295,6 +295,66 @@ describe('sequelize-slugify', function () {
             });
         });
 
+        it('should replace the incremental separator if replacement slug option is specified', function() {
+            SequelizeSlugify.slugifyModel(User, {
+                source: ['givenName', 'familyName'],
+                slugOptions: {
+                    incrementalReplacement: '+',
+                    lower: true
+                }
+            });
+
+            return User.create({
+                givenName: 'Cleora',
+                familyName: 'Curley'
+            }).then(function () {
+                return User.create({
+                    givenName: 'Cleora',
+                    familyName: 'Curley'
+                });
+            }).then(function(user) {
+                return expect(user.slug).to.equal('cleora-curley+1');
+            });
+        });
+
+        it('should use the default incremental separator if no replacement slug option is specified', function() {
+            SequelizeSlugify.slugifyModel(User, {
+                source: ['givenName', 'familyName'],
+                slugOptions: {
+                    lower: true
+                }
+            });
+
+            return User.create({
+                givenName: 'Cleora',
+                familyName: 'Curley'
+            }).then(function () {
+                return User.create({
+                    givenName: 'Cleora',
+                    familyName: 'Curley'
+                });
+            }).then(function(user) {
+                return expect(user.slug).to.equal('cleora-curley-1');
+            });
+        });
+
+
+        it('should return null if it fails to slugify the source', function() {
+            SequelizeSlugify.slugifyModel(User, {
+                source: ['givenName', 'familyName'],
+                slugOptions: {
+                    lower: true
+                }
+            });
+
+            return User.create({
+                givenName: '你好我的名字是',
+                familyName: '你好我的名字是'
+            }).then(function (user) {
+                return expect(user.slug).to.equal(null);
+            });
+        });
+
 
     });
 
