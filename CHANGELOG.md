@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ## [Unreleased]
 - N/A
 
+## [0.9.0] - 2019-12-18
+- Added `incrementalReplacement` option to specify the slug counter separator
+- Package upgrades for security warnings
+
 ## [0.8.0] - 2019-03-22
 - Hook support for bulkCreate so slugs are added
 
