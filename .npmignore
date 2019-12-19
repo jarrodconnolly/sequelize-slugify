@@ -1,1 +1,4 @@
 .git
+.idea
+.travis.yml
+*.md
