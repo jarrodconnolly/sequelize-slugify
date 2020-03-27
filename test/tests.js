@@ -371,10 +371,7 @@ describe('sequelize-slugify', function () {
                 expect(user.slug).to.be.equal('cleo');
 
                 user.nickName = 'Don';
-                await user.save();
-
-                expect(user.slug).to.be.equal('cleo');
-
+                
                 await user.updateSlug();
                 
                 expect(user.slug).to.be.equal('don');
