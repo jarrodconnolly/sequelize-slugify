@@ -11,8 +11,8 @@ var dbUsername = process.env.DB_USER || 'postgres';
 var dbPassword = process.env.DB_PW || null;
 var sequelize = new Sequelize('sequelize_slugify_test', dbUsername, dbPassword, {
     host: 'localhost',
-    dialect: 'postgres',
-    logging: false
+    dialect: process.env.DB_DIALECT || 'postgres',
+    logging: false,
 });
 
 var SequelizeSlugify = require('../index');
@@ -352,6 +352,21 @@ describe('sequelize-slugify', function () {
                 familyName: '你好我的名字是'
             }).then(function (user) {
                 return expect(user.slug).to.equal(null);
+            });
+        });
+
+
+        it('should be able to update slug manually', function() {
+            SequelizeSlugify.slugifyModel(User, {
+                source: ['nickName'],
+                overwrite: false
+            });
+
+            return User.create({
+                givenName: 'Suzan',
+                familyName: 'Scheiber'
+            }).then(function (user) {
+                return expect(user.slug).to.equal('suzan');
             });
         });
 

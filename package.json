@@ -27,6 +27,7 @@
     "chai-as-promised": "7.1.1",
     "eslint": "^5.16.0",
     "mocha": "6.2.2",
+    "mysql2": "^2.1.0",
     "pg": "7.15.1",
     "pg-hstore": "2.3.3",
     "sequelize": "5.21.3"
