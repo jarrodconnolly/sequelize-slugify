@@ -355,22 +355,31 @@ describe('sequelize-slugify', function () {
             });
         });
 
+        describe("manual updating", function(){
+            it('should be able to update slug manually', async () => {
+                SequelizeSlugify.slugifyModel(User, {
+                    source: ['nickName'],
+                    overwrite: false
+                });
+    
+                const user = await User.create({
+                    givenName: 'Suzan',
+                    familyName: 'Scheiber',
+                    nickName: 'Cleo'
+                });
 
-        it('should be able to update slug manually', function() {
-            SequelizeSlugify.slugifyModel(User, {
-                source: ['nickName'],
-                overwrite: false
-            });
+                expect(user.slug).to.be.equal('cleo');
 
-            return User.create({
-                givenName: 'Suzan',
-                familyName: 'Scheiber'
-            }).then(function (user) {
-                return expect(user.slug).to.equal('suzan');
+                user.nickName = 'Don';
+                await user.save();
+
+                expect(user.slug).to.be.equal('cleo');
+
+                await user.updateSlug();
+                
+                expect(user.slug).to.be.equal('don');
             });
         });
-
-
     });
 
     after(function () {
