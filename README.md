@@ -147,3 +147,43 @@ export default (sequelize, DataTypes) => {
     return User;
 };
 ```
+
+### Manually updating the slug
+
+A slug can manually be updated to reflect changes in the source fields.
+
+```javascript
+
+import SequelizeSlugify from 'sequelize-slugify';
+
+export default (sequelize, DataTypes) => {
+    const User = sequelize.define('User', {
+        slug: {
+            type: DataTypes.STRING,
+            unique: true
+        },
+        familyName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+    });
+
+    SequelizeSlugify.slugifyModel(User, {
+        source: ['givenName'],
+        overwrite: false
+    });
+
+    return User;
+};
+```
+
+Later in the code
+
+```javascript
+
+const user = User.findOne();
+
+await user.updateSlug();
+await user.save();
+
+```
