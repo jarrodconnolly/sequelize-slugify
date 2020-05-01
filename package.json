@@ -20,7 +20,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "sluglife": "^0.9.8"
+    "sluglife": "^0.9.8",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "chai": "4.2.0",
@@ -33,6 +34,9 @@
   },
   "scripts": {
     "test": "mocha $NODE_DEBUG_OPTION ./test/*",
-    "lint": "eslint -c .eslintrc.js ."
-  }
+    "lint": "eslint -c .eslintrc.js .",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
