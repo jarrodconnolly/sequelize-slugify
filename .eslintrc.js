@@ -3,7 +3,8 @@ module.exports = {
     'commonjs': true,
     'es6': true,
     'node': true,
-    'mocha': true
+    'mocha': true,
+    'es2020': true
   },
   'extends': 'eslint:recommended',
   'globals': {
@@ -11,7 +12,10 @@ module.exports = {
     'SharedArrayBuffer': 'readonly',
   },
   'parserOptions': {
-    'ecmaVersion': 2018,
+    'ecmaVersion': 2020,
+    'sourceType': "script",
   },
-  'rules': {},
-}
+  'rules': {
+    "semi": "error"
+  },
+};

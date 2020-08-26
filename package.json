@@ -11,6 +11,9 @@
     "url": "https://github.com/jarrodconnolly/sequelize-slugify/issues"
   },
   "main": "index",
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "keywords": [
     "slug",
     "slugify",
@@ -23,16 +26,29 @@
     "sluglife": "^0.9.8"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "5.0.1",
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
-    "eslint": "^5.16.0",
-    "mocha": "6.2.2",
-    "pg": "7.15.1",
+    "codecov": "3.7.2",
+    "conventional-changelog-conventionalcommits": "4.4.0",
+    "cross-env": "7.0.2",
+    "eslint": "7.7.0",
+    "mocha": "8.1.2",
+    "mysql2": "2.1.0",
+    "nyc": "15.1.0",
+    "pg": "8.3.2",
     "pg-hstore": "2.3.3",
-    "sequelize": "5.21.3"
+    "semantic-release": "17.1.1",
+    "sequelize": "6.3.4",
+    "sqlite3": "5.0.0"
   },
   "scripts": {
-    "test": "mocha $NODE_DEBUG_OPTION ./test/*",
-    "lint": "eslint -c .eslintrc.js ."
+    "test:sqlite": "cross-env TEST_MODE=sqlite nyc -r text -r html mocha ./test/*",
+    "test:pg": "cross-env TEST_MODE=pg nyc -r text -r html mocha ./test/*",
+    "test:mysql": "cross-env TEST_MODE=mysql nyc -r text -r html mocha ./test/*",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov --disable=gcov --file=coverage.lcov",
+    "lint": "eslint -c .eslintrc.js .",
+    "lint:report": "eslint --config .eslintrc.js --output-file eslint_report.json --format json .",
+    "semantic-release": "semantic-release"
   }
 }

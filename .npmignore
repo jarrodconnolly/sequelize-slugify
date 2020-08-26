@@ -1,4 +1,8 @@
 .git
 .idea
-.travis.yml
-*.md
+.eslintrc.js
+/test
+/coverage
+/.nyc_output
+/.github
+eslint_report.json
