@@ -1,10 +1,16 @@
-# Changelog
+## [1.0.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v0.9.1...v1.0.0) (2020-08-26)
 
-All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+### ⚠ BREAKING CHANGES
 
-This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+* Drop Node.js 6 and 8, minimum version is 10
+* Rename `incrementalReplacement` to `incrementalSeparator`
+
+### Continuous Integration
+
+* Move from Travis to GitHub Actions
+* Run unit tests using PostgreSQL, MySQL and SQLite
+* Add code coverage reporting
 
 ## [0.9.0] - 2019-12-18
 - Added `incrementalReplacement` option to specify the slug counter separator
