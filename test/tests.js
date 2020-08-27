@@ -17,7 +17,7 @@ let sequelize;
 const modelOptions = {};
 
 const currentTestMode = process.env.TEST_MODE;
-if(currentTestMode === 'pg') {
+if (currentTestMode === 'pg') {
   const dbUsername = process.env.DB_USER || 'postgres';
   const dbPassword = process.env.DB_PW || '';
   const host = process.env.DB_HOST || 'localhost';
@@ -26,7 +26,7 @@ if(currentTestMode === 'pg') {
     dialect: 'postgres',
     logging: false,
   });
-} else if(currentTestMode === 'mysql') {
+} else if (currentTestMode === 'mysql') {
   const dbUsername = process.env.DB_USER || 'root';
   const dbPassword = process.env.DB_PW || 'rootroot';
   sequelize = new Sequelize('sequelize_slugify_test', dbUsername, dbPassword, {
@@ -41,7 +41,7 @@ if(currentTestMode === 'pg') {
   //       return sequelize.query("CREATE DATABASE sequelize_slugify_test;");
   //     });
   // });
-} else if(currentTestMode === 'sqlite') {
+} else if (currentTestMode === 'sqlite') {
   sequelize = new Sequelize({
     dialect: 'sqlite',
     logging: false,
@@ -49,8 +49,6 @@ if(currentTestMode === 'pg') {
 } else {
   throw new Error('Invalid TEST_MODE');
 }
-
-
 
 var GetUser = function (modelname) {
   return sequelize.define(modelname, {
@@ -78,15 +76,13 @@ var GetUser = function (modelname) {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
-  },modelOptions);
+  }, modelOptions);
 };
 
 var User = {};
 var userId = 0;
 
 describe('sequelize-slugify', function () {
-
-  describe('slugs', function () {
 
     // user a new model for each test
     beforeEach(function () {
@@ -121,120 +117,116 @@ describe('sequelize-slugify', function () {
       });
     });
 
-    describe('bulk operations', function () {
-      xit('should bulk update a slug from the Model', function () {
-        SequelizeSlugify.slugifyModel(User, {
-          source: ['givenName'],
-        });
-
-        return User.create({
-          givenName: 'Woibrert',
-          familyName: 'Hamazoni',
-        }).then(function () {
-          return User.update({
-            givenName: 'Hazzah',
-          }, {where: {givenName: 'Woibrert'}});
-        }).then(function () {
-          return User.findOne({givenName: 'Hazzah'});
-        }).then(function (user) {
-          return expect(user.slug).to.equal('hazzah');
-        });
+    xit('should bulk update a slug from the Model', function () {
+      SequelizeSlugify.slugifyModel(User, {
+        source: ['givenName'],
       });
 
-      it('should create a slug during a bulk create', function () {
-        SequelizeSlugify.slugifyModel(User, {
-          source: ['givenName'],
-        });
-
-        return User.bulkCreate([
-          {givenName: 'Groyta', familyName: 'Helmerson'},
-          {givenName: 'Weelan', familyName: 'Rolshier'},
-        ]).then(function (user) {
-          expect(user[0].slug).to.equal('groyta');
-          expect(user[1].slug).to.equal('weelan');
-        });
+      return User.create({
+        givenName: 'Woibrert',
+        familyName: 'Hamazoni',
+      }).then(function () {
+        return User.update({
+          givenName: 'Hazzah',
+        }, {where: {givenName: 'Woibrert'}});
+      }).then(function () {
+        return User.findOne({givenName: 'Hazzah'});
+      }).then(function (user) {
+        return expect(user.slug).to.equal('hazzah');
       });
     });
 
-    describe('source suffixes', function () {
-      it('should use provided slug suffixes if the slug already exists', function () {
-        SequelizeSlugify.slugifyModel(User, {
-          source: ['givenName', 'familyName'],
-          suffixSource: ['nickName'],
-        });
+    it('should create a slug during a bulk create', function () {
+      SequelizeSlugify.slugifyModel(User, {
+        source: ['givenName'],
+      });
 
+      return User.bulkCreate([
+        {givenName: 'Groyta', familyName: 'Helmerson'},
+        {givenName: 'Weelan', familyName: 'Rolshier'},
+      ]).then(function (user) {
+        expect(user[0].slug).to.equal('groyta');
+        expect(user[1].slug).to.equal('weelan');
+      });
+    });
+
+    it('should use provided slug suffixes if the slug already exists', function () {
+      SequelizeSlugify.slugifyModel(User, {
+        source: ['givenName', 'familyName'],
+        suffixSource: ['nickName'],
+      });
+
+      return User.create({
+        givenName: 'Cleora',
+        familyName: 'Curley',
+      }).then(function () {
         return User.create({
           givenName: 'Cleora',
           familyName: 'Curley',
-        }).then(function () {
-          return User.create({
-            givenName: 'Cleora',
-            familyName: 'Curley',
-            nickName: 'Cleo',
-          });
-        }).then(function (user) {
-          return expect(user.slug).to.equal('cleora-curley-cleo');
+          nickName: 'Cleo',
         });
+      }).then(function (user) {
+        return expect(user.slug).to.equal('cleora-curley-cleo');
+      });
+    });
+
+    it('should handle multiple slug suffix fields', function () {
+      SequelizeSlugify.slugifyModel(User, {
+        source: ['givenName', 'familyName'],
+        suffixSource: ['nickName', 'age'],
       });
 
-      it('should handle multiple slug suffix fields', function () {
-        SequelizeSlugify.slugifyModel(User, {
-          source: ['givenName', 'familyName'],
-          suffixSource: ['nickName', 'age'],
-        });
-
+      return User.create({
+        givenName: 'Donald',
+        familyName: 'Draper',
+      }).then(function () {
         return User.create({
           givenName: 'Donald',
           familyName: 'Draper',
-        }).then(function () {
-          return User.create({
-            givenName: 'Donald',
-            familyName: 'Draper',
-            nickName: 'Don',
-          });
-        }).then(function () {
-          return User.create({
-            givenName: 'Donald',
-            familyName: 'Draper',
-            nickName: 'Don',
-            age: 42,
-          });
-        }).then(function (user) {
-          return expect(user.slug).to.equal('donald-draper-don-42');
+          nickName: 'Don',
         });
+      }).then(function () {
+        return User.create({
+          givenName: 'Donald',
+          familyName: 'Draper',
+          nickName: 'Don',
+          age: 42,
+        });
+      }).then(function (user) {
+        return expect(user.slug).to.equal('donald-draper-don-42');
+      });
+    });
+
+    it('should fall back on numeric suffixes', function () {
+      SequelizeSlugify.slugifyModel(User, {
+        source: ['givenName', 'familyName'],
+        suffixSource: ['nickName', 'age'],
       });
 
-      it('should fall back on numeric suffixes', function () {
-        SequelizeSlugify.slugifyModel(User, {
-          source: ['givenName', 'familyName'],
-          suffixSource: ['nickName', 'age'],
-        });
-
+      return User.create({
+        givenName: 'Gary',
+        familyName: 'Gray',
+        nickName: 'Gutsy',
+      }).then(function () {
         return User.create({
           givenName: 'Gary',
           familyName: 'Gray',
           nickName: 'Gutsy',
-        }).then(function () {
-          return User.create({
-            givenName: 'Gary',
-            familyName: 'Gray',
-            nickName: 'Gutsy',
-          });
-        }).then(function () {
-          return User.create({
-            givenName: 'Gary',
-            familyName: 'Gray',
-            nickName: 'Gutsy',
-          });
-        }).then(function () {
-          return User.create({
-            givenName: 'Gary',
-            familyName: 'Gray',
-            nickName: 'Gutsy',
-          });
-        }).then(function (user) {
-          return expect(user.slug).to.equal('gary-gray-gutsy-2');
         });
+      }).then(function () {
+        return User.create({
+          givenName: 'Gary',
+          familyName: 'Gray',
+          nickName: 'Gutsy',
+        });
+      }).then(function () {
+        return User.create({
+          givenName: 'Gary',
+          familyName: 'Gray',
+          nickName: 'Gutsy',
+        });
+      }).then(function (user) {
+        return expect(user.slug).to.equal('gary-gray-gutsy-2');
       });
     });
 
@@ -398,9 +390,99 @@ describe('sequelize-slugify', function () {
       });
     });
 
-  });
+    describe('transactions', function () {
+      it('roll back in managed transactions on create', async function () {
+        SequelizeSlugify.slugifyModel(User, {
+          source: ['givenName', 'familyName'],
+        });
 
-  after(function () {
-    return sequelize.close();
+        try {
+          await sequelize.transaction(async (t) => {
+            const user = await User.create({
+              givenName: 'Lloyd',
+              familyName: 'Gale',
+            }, {transaction: t});
+            // user created inside transaction
+            // create completes, slug has been updated
+            expect(user.slug).to.equal('lloyd-gale');
+            // error inside transaction, auto rollback is performed
+            throw new Error();
+          });
+        } catch (error) {
+          // entire create rolls back, user no longer exists
+          const user = await User.findOne({where:{givenName:'Lloyd'}});
+          expect(user).to.equal(null);
+        }
+      });
+
+      it('roll back in managed transactions on update', async function () {
+        SequelizeSlugify.slugifyModel(User, {
+          source: ['givenName', 'familyName'],
+        });
+
+        const user = await User.create({
+          givenName: 'Jenny',
+          familyName: 'Lozano',
+        });
+        // user created initially outside transaction
+        expect(user.slug).to.equal('jenny-lozano');
+
+        try {
+          await sequelize.transaction(async (t) => {
+            user.familyName = 'Gaia';
+            await user.save({transaction: t});
+            // update completes, slug has been updated
+            const updatedUser = await User.findOne({
+              where:{givenName:'Jenny',
+                transaction: t
+              }});
+            expect(updatedUser.slug).to.equal('jenny-gaia');
+            // error inside transaction, auto rollback is performed
+            throw new Error();
+          });
+        } catch (error) {
+          // the user is now back to the original slug
+          const user = await User.findOne({where:{givenName:'Jenny'}});
+          return expect(user.slug).to.equal('jenny-lozano');
+        }
+      });
+
+      it('roll back managed transactions on update - passTransaction:false', async function () {
+        SequelizeSlugify.slugifyModel(User, {
+          source: ['givenName', 'familyName'],
+          passTransaction: false
+        });
+
+        const user = await User.create({
+          givenName: 'Jude',
+          familyName: 'Cope',
+        });
+        // user created initially outside transaction
+        expect(user.slug).to.equal('jude-cope');
+
+        try {
+          await sequelize.transaction(async (t) => {
+            user.familyName = 'Nimrah';
+            await user.save({transaction: t});
+            // update completes, slug has been updated
+            const updatedUser = await User.findOne({
+              where:{givenName:'Jude'},
+              transaction: t
+            });
+            expect(updatedUser.slug).to.equal('jude-nimrah');
+            // error inside transaction, auto rollback is performed
+            throw new Error();
+          });
+        } catch (error) {
+          // the user is now back to the original slug
+          const user = await User.findOne({where:{givenName:'Jude'}});
+          expect(user.slug).to.equal('jude-cope');
+        }
+      });
+
+    });
+
+    after(function () {
+      return sequelize.close();
+    });
   });
-});

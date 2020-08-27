@@ -39,6 +39,7 @@ SequelizeSlugify.slugifyModel(User, {
     overwrite: false,
     column: 'slug',
     incrementalSeparator: '-',
+    passTransaction: true
 });
 ```
 Available Options
@@ -48,8 +49,8 @@ Available Options
 - `slugOptions` - (Optional)(Default `{lower: true}`) Pass additional options for slug generation as defined by [`sluglife`](https://github.com/jarrodconnolly/sluglife#options).
 - `overwrite` - (Optional)(Default `true`) Change the slug if the source fields change once the slug has already been built.
 - `column` - (Optional)(Default `slug`) Specify which column the slug is to be stored into in the model.
-- `incrementalSeparator` - (Default `-`) Specify the separator between the slug, and the duplicate count.
-
+- `incrementalSeparator` - (Optional)(Default `-`) Specify the separator between the slug, and the duplicate count.
+- `passTransaction` - (Optional)(Default `true`) Whether to pass an outer transaction, if one exists, to the plugin.
 ## Usage Examples
 
 ### Basic Usage
@@ -156,3 +157,12 @@ export default (sequelize, DataTypes) => {
     return User;
 };
 ```
+## Transactions
+
+A transaction wrapping operations on the Model will be passed by default to the internals of this plugin. 
+This behaviour can be modified using the `passTransaction` option described above.
+
+Internally this plugin only calls a `findOne` operation, passing the transaction to this may help in specific Isolation scenarios depending on your underlying database.
+
+Fields modified when creating/updating the slug will be rolled back even if we do not pass the transaction due to the nature of how hooks operate.
+
