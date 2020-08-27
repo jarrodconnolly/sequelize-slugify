@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.0.0...v1.1.0) (2020-08-27)
+
+
+### Features
+
+* Add transaction support. Passes transaction used by Models into the plugin. ([a1b726a](https://github.com/jarrodconnolly/sequelize-slugify/commit/a1b726a18c6053b398662b20e2f9f134186a39ce))
+
 ## [1.0.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v0.9.1...v1.0.0) (2020-08-26)
 
 
