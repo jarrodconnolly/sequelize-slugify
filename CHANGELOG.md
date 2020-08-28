@@ -1,3 +1,10 @@
+## [1.2.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.1.0...v1.2.0) (2020-08-28)
+
+
+### Features
+
+* Add `regenerateSlug` method to model to allow manual control of slug regeneration. ([1870be0](https://github.com/jarrodconnolly/sequelize-slugify/commit/1870be0dec7f401f8a079d30b76099f67fb6e8e9))
+
 ## [1.1.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.0.0...v1.1.0) (2020-08-27)
 
 
