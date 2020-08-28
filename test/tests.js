@@ -303,6 +303,18 @@ describe('sequelize-slugify', function () {
       });
     });
 
+    it('should overwrite slug if we force regeneration', async function () {
+      SequelizeSlugify.slugifyModel(User, {
+        source: ['givenName'],
+        overwrite: false,
+      });
+      const user = await User.create({givenName: 'Zhane', familyName: 'Sandoval'});
+      user.givenName = 'Salma';
+      await user.regenerateSlug();
+      const updatedUser = await user.save();
+      return expect(updatedUser.slug).to.equal('salma');
+    });
+
     it('should create a slug using custom slug field', function () {
       SequelizeSlugify.slugifyModel(User, {
         source: ['givenName'],

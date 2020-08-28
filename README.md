@@ -51,6 +51,15 @@ Available Options
 - `column` - (Optional)(Default `slug`) Specify which column the slug is to be stored into in the model.
 - `incrementalSeparator` - (Optional)(Default `-`) Specify the separator between the slug, and the duplicate count.
 - `passTransaction` - (Optional)(Default `true`) Whether to pass an outer transaction, if one exists, to the plugin.
+
+## Methods
+
+The method `regenerateSlug` is attached to the models, this allows for manual slug regeneration when `overwrite`
+is disabled. This allows for more controlled slug generation.
+
+The `regenerateSlug` method takes an option argument `transaction` that can be passed in if you are calling from
+within a Sequelize transaction.
+
 ## Usage Examples
 
 ### Basic Usage
