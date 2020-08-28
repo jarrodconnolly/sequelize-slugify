@@ -1,3 +1,10 @@
+### [1.2.1](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.2.0...v1.2.1) (2020-08-28)
+
+
+### Bug Fixes
+
+* Remove a superfluous unique check calling `findOne` when using `suffixSource` ([10fe7a2](https://github.com/jarrodconnolly/sequelize-slugify/commit/10fe7a24a6149b3510f85135b2023b3b4e62e6f1))
+
 ## [1.2.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.1.0...v1.2.0) (2020-08-28)
 
 
