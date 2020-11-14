@@ -1,9 +1,17 @@
 # sequelize-slugify
-[![Build Status](https://travis-ci.com/jarrodconnolly/sequelize-slugify.svg?branch=master)](https://travis-ci.com/jarrodconnolly/sequelize-slugify) [![npm](https://img.shields.io/npm/v/sequelize-slugify.svg)](https://www.npmjs.com/package/sequelize-slugify) [![Dependency Status](https://david-dm.org/jarrodconnolly/sequelize-slugify.svg)](https://david-dm.org/jarrodconnolly/sequelize-slugify) [![Known Vulnerabilities](https://snyk.io/test/github/jarrodconnolly/sequelize-slugify/badge.svg?targetFile=package.json)](https://snyk.io/test/github/jarrodconnolly/sequelize-slugify?targetFile=package.json) ![GitHub license](https://img.shields.io/github/license/jarrodconnolly/sequelize-slugify.svg)
 
-sequelize-slugify is a model plugin for Sequelize that automatically creates and updates unique slugs for your models.
+![](https://badgen.net/github/checks/jarrodconnolly/sequelize-slugify/master?label=CI&icon=github)
+![](https://badgen.net/codecov/c/github/jarrodconnolly/sequelize-slugify/master?icon=codecov)
+![](https://badgen.net/npm/v/sequelize-slugify)
+![](https://badgen.net/npm/dw/sequelize-slugify)
+![](https://badgen.net/github/license/jarrodconnolly/sequelize-slugify)
 
-So far this module has only been tested with the PostgreSQL database.
+
+`sequelize-slugify` is a model plugin for Sequelize that automatically creates and updates unique slugs for your models.
+
+`sequelize-slugify` runs GitHub Actions CI tests against PostgreSQL, MySQL & SQLite.
+
+`sequelize-slugify` follows Semantic Versioning and supports Node v10 and above.
 
 ## Installation
 
@@ -21,26 +29,37 @@ slug: {
 ```
 ## Options
 
-slugifyModel takes an options object as it's second parameter.
+slugifyModel takes an option object as it's second parameter.
 
 ```javascript
 SequelizeSlugify.slugifyModel(User, {
     source: ['givenName'],
+    suffixSource: [],
     slugOptions: { lower: true },
     overwrite: false,
     column: 'slug',
-    incrementalReplacement: '-',
+    incrementalSeparator: '-',
+    passTransaction: true
 });
-
 ```
 Available Options
 
 - `source` - (Required) Array of field names in the model to build the slug from.
-- `suffixSource` - (Optional) Array of field names in the model to use as the source for additional suffixes to make the slug unique (before defaulting to adding numbers to the end of the slug).
-- `slugOptions` - (Default `{lower: true}`) Pass additional options for slug generation as defined by [`slug`](https://github.com/dodo/node-slug).
-- `overwrite` - (Default `TRUE`) Change the slug if the source fields change once the slug has already been built.
-- `column` - (Default `slug`) Specify which column the slug is to be stored into in the model.
-- `incrementalReplacement` - (Default `-`) Specify the separator between the slug and the duplicate count
+- `suffixSource` - (Optional)(Default `[]`) Array of field names in the model to use as the source for additional suffixes to make the slug unique (before defaulting to adding numbers to the end of the slug).
+- `slugOptions` - (Optional)(Default `{lower: true}`) Pass additional options for slug generation as defined by [`sluglife`](https://github.com/jarrodconnolly/sluglife#options).
+- `overwrite` - (Optional)(Default `true`) Change the slug if the source fields change once the slug has already been built.
+- `column` - (Optional)(Default `slug`) Specify which column the slug is to be stored into in the model.
+- `incrementalSeparator` - (Optional)(Default `-`) Specify the separator between the slug, and the duplicate count.
+- `passTransaction` - (Optional)(Default `true`) Whether to pass an outer transaction, if one exists, to the plugin.
+
+## Methods
+
+The method `regenerateSlug` is attached to the models, this allows for manual slug regeneration when `overwrite`
+is disabled. This allows for more controlled slug generation.
+
+The `regenerateSlug` method takes an option argument `transaction` that can be passed in if you are calling from
+within a Sequelize transaction.
+
 ## Usage Examples
 
 ### Basic Usage
@@ -147,3 +166,12 @@ export default (sequelize, DataTypes) => {
     return User;
 };
 ```
+## Transactions
+
+A transaction wrapping operations on the Model will be passed by default to the internals of this plugin. 
+This behaviour can be modified using the `passTransaction` option described above.
+
+Internally this plugin only calls a `findOne` operation, passing the transaction to this may help in specific Isolation scenarios depending on your underlying database.
+
+Fields modified when creating/updating the slug will be rolled back even if we do not pass the transaction due to the nature of how hooks operate.
+

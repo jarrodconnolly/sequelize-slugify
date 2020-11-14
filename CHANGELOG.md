@@ -1,13 +1,37 @@
-# Changelog
+### [1.2.1](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.2.0...v1.2.1) (2020-08-28)
 
-All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+### Bug Fixes
 
-This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+* Remove a superfluous unique check calling `findOne` when using `suffixSource` ([10fe7a2](https://github.com/jarrodconnolly/sequelize-slugify/commit/10fe7a24a6149b3510f85135b2023b3b4e62e6f1))
 
-## [Unreleased]
-- N/A
+## [1.2.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.1.0...v1.2.0) (2020-08-28)
+
+
+### Features
+
+* Add `regenerateSlug` method to model to allow manual control of slug regeneration. ([1870be0](https://github.com/jarrodconnolly/sequelize-slugify/commit/1870be0dec7f401f8a079d30b76099f67fb6e8e9))
+
+## [1.1.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.0.0...v1.1.0) (2020-08-27)
+
+
+### Features
+
+* Add transaction support. Passes transaction used by Models into the plugin. ([a1b726a](https://github.com/jarrodconnolly/sequelize-slugify/commit/a1b726a18c6053b398662b20e2f9f134186a39ce))
+
+## [1.0.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v0.9.1...v1.0.0) (2020-08-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* Drop Node.js 6 and 8, minimum version is 10
+* Rename `incrementalReplacement` to `incrementalSeparator`
+
+### Continuous Integration
+
+* Move from Travis to GitHub Actions
+* Run unit tests using PostgreSQL, MySQL and SQLite
+* Add code coverage reporting
 
 ## [0.9.0] - 2019-12-18
 - Added `incrementalReplacement` option to specify the slug counter separator
