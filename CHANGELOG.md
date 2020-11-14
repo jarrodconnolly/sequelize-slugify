@@ -1,3 +1,14 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.3.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.2.1...v1.3.0) (2020-11-14)
+
+
+### Features
+
+* change to using standard-version for releases ([d6d3d83](https://github.com/jarrodconnolly/sequelize-slugify/commit/d6d3d83eaddd92e18043374c8e3ddfe438a5e6ad))
+
 ### [1.2.1](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.2.0...v1.2.1) (2020-08-28)
 
 
