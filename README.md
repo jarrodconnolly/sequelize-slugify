@@ -1,10 +1,10 @@
 # sequelize-slugify
 
-![](https://badgen.net/github/checks/jarrodconnolly/sequelize-slugify/master?label=CI&icon=github)
-![](https://badgen.net/codecov/c/github/jarrodconnolly/sequelize-slugify/master?icon=codecov)
-![](https://badgen.net/npm/v/sequelize-slugify)
-![](https://badgen.net/npm/dw/sequelize-slugify)
-![](https://badgen.net/github/license/jarrodconnolly/sequelize-slugify)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jarrodconnolly/sequelize-slugify/Continuous%20Integration)
+![Codecov](https://img.shields.io/codecov/c/github/jarrodconnolly/sequelize-slugify)
+![npm](https://img.shields.io/npm/v/sequelize-slugify)
+![npm](https://img.shields.io/npm/dw/sequelize-slugify)
+![NPM](https://img.shields.io/npm/l/sequelize-slugify)
 
 
 `sequelize-slugify` is a model plugin for Sequelize that automatically creates and updates unique slugs for your models.
