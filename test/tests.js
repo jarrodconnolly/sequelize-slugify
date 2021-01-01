@@ -248,72 +248,6 @@ describe('sequelize-slugify', function () {
       });
     });
 
-    it('should overwrite slug by default', function () {
-      SequelizeSlugify.slugifyModel(User, {
-        source: ['givenName'],
-      });
-
-      return User.create({
-        givenName: 'Rupert',
-        familyName: 'Rinaldi',
-      }).then(function (user) {
-        user.givenName = 'Genie';
-        user.familyName = 'Gayden';
-
-        return user.save();
-      }).then(function (updatedUser) {
-        return expect(updatedUser.slug).to.equal('genie');
-      });
-    });
-
-    it('should NOT overwrite slug source does not change', function () {
-      SequelizeSlugify.slugifyModel(User, {
-        source: ['givenName'],
-      });
-
-      return User.create({
-        givenName: 'Brewhan',
-        familyName: 'Herrold',
-      }).then(function (user) {
-        user.givenName = 'Brewhan';
-        user.familyName = 'Filmer';
-
-        return user.save();
-      }).then(function (updatedUser) {
-        return expect(updatedUser.slug).to.equal('brewhan');
-      });
-    });
-
-    it('should NOT overwrite slug if option says not to', function () {
-      SequelizeSlugify.slugifyModel(User, {
-        source: ['givenName'],
-        overwrite: false,
-      });
-
-      return User.create({
-        givenName: 'Miquel',
-        familyName: 'Mceachin',
-      }).then(function (user) {
-        user.givenName = 'Sallie';
-        user.familyName = 'Shira';
-
-        return user.save();
-      }).then(function (updatedUser) {
-        return expect(updatedUser.slug).to.equal('miquel');
-      });
-    });
-
-    it('should overwrite slug if we force regeneration', async function () {
-      SequelizeSlugify.slugifyModel(User, {
-        source: ['givenName'],
-        overwrite: false,
-      });
-      const user = await User.create({givenName: 'Zhane', familyName: 'Sandoval'});
-      user.givenName = 'Salma';
-      await user.regenerateSlug();
-      const updatedUser = await user.save();
-      return expect(updatedUser.slug).to.equal('salma');
-    });
 
     it('should create a slug using custom slug field', function () {
       SequelizeSlugify.slugifyModel(User, {
@@ -399,6 +333,92 @@ describe('sequelize-slugify', function () {
         familyName: '你好我的名字是',
       }).then(function (user) {
         return expect(user.slug).to.equal(null);
+      });
+    });
+
+    describe('overwrite & force regeneration', function () {
+      it('should overwrite slug by default', function () {
+        SequelizeSlugify.slugifyModel(User, {
+          source: ['givenName'],
+        });
+
+        return User.create({
+          givenName: 'Rupert',
+          familyName: 'Rinaldi',
+        }).then(function (user) {
+          user.givenName = 'Genie';
+          user.familyName = 'Gayden';
+
+          return user.save();
+        }).then(function (updatedUser) {
+          return expect(updatedUser.slug).to.equal('genie');
+        });
+      });
+
+      it('should NOT overwrite slug source does not change', function () {
+        SequelizeSlugify.slugifyModel(User, {
+          source: ['givenName'],
+        });
+
+        return User.create({
+          givenName: 'Brewhan',
+          familyName: 'Herrold',
+        }).then(function (user) {
+          user.givenName = 'Brewhan';
+          user.familyName = 'Filmer';
+
+          return user.save();
+        }).then(function (updatedUser) {
+          return expect(updatedUser.slug).to.equal('brewhan');
+        });
+      });
+
+      it('should NOT overwrite slug if option says not to', function () {
+        SequelizeSlugify.slugifyModel(User, {
+          source: ['givenName'],
+          overwrite: false,
+        });
+
+        return User.create({
+          givenName: 'Miquel',
+          familyName: 'Mceachin',
+        }).then(function (user) {
+          user.givenName = 'Sallie';
+          user.familyName = 'Shira';
+
+          return user.save();
+        }).then(function (updatedUser) {
+          return expect(updatedUser.slug).to.equal('miquel');
+        });
+      });
+
+      it('regenerateSlug should overwrite slug when changed', async function () {
+        SequelizeSlugify.slugifyModel(User, {
+          source: ['givenName'],
+          overwrite: false,
+        });
+        const user = await User.create({givenName: 'Zhane', familyName: 'Sandoval'});
+        user.givenName = 'Salma';
+        await user.regenerateSlug();
+        const updatedUser = await user.save();
+        return expect(updatedUser.slug).to.equal('salma');
+      });
+
+      it('regenerateSlug should overwrite slug when never had one', async function () {
+        // model saved prior to being slugified
+        const user = await User.create({givenName: 'Khia', familyName: 'Metcalfe'});
+        // for user.slug - pg returns null while mysql & sqlite return undefined
+        expect(user.slug).to.not.exist; // checks neither null nor undefined
+
+        // later slugified
+        SequelizeSlugify.slugifyModel(User, {
+          source: ['givenName'],
+          overwrite: false,
+        });
+
+        await user.regenerateSlug();
+        const updatedUser = await user.save();
+        return expect(updatedUser.slug).to.equal('khia');
       });
     });
 
