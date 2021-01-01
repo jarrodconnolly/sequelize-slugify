@@ -5,7 +5,7 @@
 ![npm](https://img.shields.io/npm/v/sequelize-slugify)
 ![npm](https://img.shields.io/npm/dw/sequelize-slugify)
 ![NPM](https://img.shields.io/npm/l/sequelize-slugify)
-
+![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow)
 
 `sequelize-slugify` is a model plugin for Sequelize that automatically creates and updates unique slugs for your models.
 

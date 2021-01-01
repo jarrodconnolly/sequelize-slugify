@@ -33,13 +33,13 @@
     "/lib"
   ],
   "devDependencies": {
-    "@types/eslint": "7.2.4",
-    "@types/jest": "26.0.15",
+    "@types/eslint": "7.2.6",
+    "@types/jest": "26.0.19",
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "codecov": "3.8.1",
-    "cross-env": "7.0.2",
-    "eslint": "7.13.0",
+    "cross-env": "7.0.3",
+    "eslint": "7.16.0",
     "mocha": "8.2.1",
     "mysql2": "2.2.5",
     "nyc": "15.1.0",
@@ -47,7 +47,7 @@
     "pg-hstore": "2.3.3",
     "sequelize": "6.3.5",
     "sqlite3": "5.0.0",
-    "standard-version": "9.0.0"
+    "standard-version": "9.1.0"
   },
   "scripts": {
     "test:sqlite": "cross-env TEST_MODE=sqlite nyc -r text -r html mocha ./test/*",
