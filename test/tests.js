@@ -41,6 +41,15 @@ if (currentTestMode === 'pg') {
   //       return sequelize.query("CREATE DATABASE sequelize_slugify_test;");
   //     });
   // });
+} else if (currentTestMode === 'mariadb') {
+  const dbUsername = process.env.DB_USER || 'root';
+  const dbPassword = process.env.DB_PW || 'rootroot';
+  sequelize = new Sequelize('sequelize_slugify_test', dbUsername, dbPassword, {
+    host: 'localhost',
+    dialect: 'mariadb',
+    logging: false,
+  });
+  modelOptions.charset = 'utf8';
 } else if (currentTestMode === 'sqlite') {
   sequelize = new Sequelize({
     dialect: 'sqlite',

@@ -57,6 +57,7 @@ jobs:
           - {name: 'Postgres 10', version: '10'}
           - {name: 'Postgres 11', version: '11'}
           - {name: 'Postgres 12', version: '12'}
+          - {name: 'Postgres 13', version: '13'}
     services:
       postgres:
         image: postgres:${{ matrix.postgres-versions.version }}
@@ -115,6 +116,42 @@ jobs:
       - run: npm ci
       - name: run tests
         run: npm run test:mysql
+      - name: report coverage
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: npm run report-coverage
+
+  test-mariadb:
+    name: Test - ${{ matrix.node-versions.name }}/${{ matrix.mariadb-versions.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-versions:
+          - {name: 'Node 10', version: '10'}
+        mariadb-versions:
+          - {name: 'MariaDB 10.1', version: '10.1'}
+          - {name: 'MariaDB 10.2', version: '10.2'}
+          - {name: 'MariaDB 10.3', version: '10.3'}
+          - {name: 'MariaDB 10.4', version: '10.4'}
+          - {name: 'MariaDB 10.5', version: '10.5'}
+    services:
+      mariadb:
+        image: mariadb:${{ matrix.mariadb-versions.version }}
+        env:
+          MYSQL_ROOT_PASSWORD: rootroot
+          MYSQL_DATABASE: sequelize_slugify_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v2
+      - name: Installing ${{ matrix.node-versions.name }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-versions.version }}
+      - run: npm ci
+      - name: run tests
+        run: npm run test:mariadb
       - name: report coverage
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
