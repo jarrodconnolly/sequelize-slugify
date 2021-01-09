@@ -46,7 +46,7 @@
     "pg": "8.5.1",
     "pg-hstore": "2.3.3",
     "sequelize": "6.3.5",
-    "sqlite3": "5.0.0",
+    "sqlite3": "5.0.1",
     "standard-version": "9.1.0"
   },
   "scripts": {
