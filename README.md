@@ -39,7 +39,8 @@ SequelizeSlugify.slugifyModel(User, {
     overwrite: false,
     column: 'slug',
     incrementalSeparator: '-',
-    passTransaction: true
+    passTransaction: true,
+    paranoid: true
 });
 ```
 Available Options
@@ -51,6 +52,7 @@ Available Options
 - `column` - (Optional)(Default `slug`) Specify which column the slug is to be stored into in the model.
 - `incrementalSeparator` - (Optional)(Default `-`) Specify the separator between the slug, and the duplicate count.
 - `passTransaction` - (Optional)(Default `true`) Whether to pass an outer transaction, if one exists, to the plugin.
+- `paranoid` - (Optional)(Default `true`) Whether the duplication check will use a paranoid query or not, for determining the next unique slug.
 
 ## Methods
 

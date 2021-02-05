@@ -59,7 +59,7 @@ if (currentTestMode === 'pg') {
   throw new Error('Invalid TEST_MODE');
 }
 
-var GetUser = function (modelname) {
+var GetUser = function (modelname, options = {}) {
   return sequelize.define(modelname, {
     slug: {
       type: Sequelize.STRING,
@@ -85,7 +85,7 @@ var GetUser = function (modelname) {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
-  }, modelOptions);
+  }, Object.assign(modelOptions, options));
 };
 
 var User = {};
@@ -429,6 +429,26 @@ describe('sequelize-slugify', function () {
         const updatedUser = await user.save();
         return expect(updatedUser.slug).to.equal('khia');
       });
+    });
+
+    it('should check soft deleted records in paranoid table, if specified', async function () {
+      const ParanoidUser = GetUser('paranoiduser' + userId, { paranoid: true });
+      await sequelize.sync({force: true});
+
+      SequelizeSlugify.slugifyModel(ParanoidUser, {
+        source: ['givenName'],
+        paranoid: false
+      });
+
+      const userInfo = {
+        givenName: 'Suzan',
+        familyName: 'Scheiber',
+      };
+
+      const userToDelete = await ParanoidUser.create(userInfo);
+      await userToDelete.destroy();
+      const identicalUser = await ParanoidUser.create(userInfo);
+      return expect(identicalUser.slug).to.equal('suzan-1');
     });
 
     describe('transactions', function () {
