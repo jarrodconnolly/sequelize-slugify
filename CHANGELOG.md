@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.3.2...v1.4.0) (2021-02-07)
+
+
+### Features
+
+* add paranoid option for duplicate check ([7e664db](https://github.com/jarrodconnolly/sequelize-slugify/commit/7e664db5ba8cf394a70ef16e3d1c2d1e34b99564))
+
 ### [1.3.2](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.3.1...v1.3.2) (2021-01-01)
 
 
