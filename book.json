@@ -1,0 +1,18 @@
+{
+  "title": "Sequelize Slugify Documentation",
+  "description" : "",
+  "author": "Jarrod Connolly",
+  "root": "./docs",
+  "structure": {
+    "readme": "main.md",
+    "summary": "navigation.md"
+  },
+  "plugins": [ "variables", "@dogatana/honkit-plugin-back-to-top-button" ],
+  "pluginsConfig": {
+    "variables": {
+      "files": {
+        "package": "../package.json"
+      }
+    }
+  }
+}

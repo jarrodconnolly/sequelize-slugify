@@ -2,4 +2,5 @@
 /.idea
 /coverage
 /.nyc_output
+/_book
 eslint_report.json

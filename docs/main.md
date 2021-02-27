@@ -1,4 +1,5 @@
 <div style="text-align: center">
+<h1>Sequelize Slugify v{{ book.package.version }}</h1>
 <img alt="Sequelize Slugify Logo" src="https://repository-images.githubusercontent.com/40067972/ebeb6380-68df-11eb-9f87-b2a2f189bdc3" />
 </div>
 
@@ -10,18 +11,3 @@
     <img alt="" src="https://img.shields.io/npm/l/sequelize-slugify">
     <img alt="" src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow">
 </div>
-
-# Sequelize Slugify
-
-#### What does Sequelize Slugify do? 
-* A plugin for Sequelize ORM models to automatically create and update unique slugs
-
-#### Unit Testing
-* GitHub Actions CI tests against PostgreSQL, MySQL & SQLite
-
-#### Releases
-* Semantic Versioning 
-* Supporting Node v10+
-
-#### Documentation
-* [Documentaiton Website](https://sequelize-slugify.nestedquotes.ca/)
