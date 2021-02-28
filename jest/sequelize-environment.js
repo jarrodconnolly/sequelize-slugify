@@ -2,17 +2,20 @@
 
 const NodeEnvironment = require('jest-environment-node');
 const Sequelize = require('sequelize');
-const SequelizeSlugify = require('../index');
 const faker = require('faker');
+const dotenv = require('dotenv');
 
 class SequelizeEnvironment extends NodeEnvironment {
   constructor(config, context) {
     super(config, context);
     this.dialect = process.env.DIALECT;
+    dotenv.config();
   }
 
   async setup() {
     await super.setup();
+
+    const { env } = process;
 
     this.modelOptions = {};
     this.modelCounter = 0;
@@ -23,19 +26,68 @@ class SequelizeEnvironment extends NodeEnvironment {
         storage: ':memory:',
         logging: false,
       });
+    } else if (this.dialect === 'postgres') {
+      this.sequelize = new Sequelize({
+        dialect: 'postgres',
+        database: env.SEQ_SLUG_DB || 'sequelize_slugify_test',
+        username: env.SEQ_SLUG_PG_USER || 'postgres',
+        password: env.SEQ_SLUG_PG_PW || 'postgres',
+        host: env.SEQ_SLUG_PG_HOST || '127.0.0.1',
+        port: env.SEQ_SLUG_PG_PORT || 5432,
+        logging: false,
+      });
+    } else if (this.dialect === 'mysql') {
+      this.sequelize = new Sequelize({
+        dialect: 'mysql',
+        database: env.SEQ_SLUG_DB || 'sequelize_slugify_test',
+        username: env.SEQ_SLUG_MYSQL_USER || 'mysql',
+        password: env.SEQ_SLUG_MYSQL_PW || 'mysql',
+        host: env.SEQ_SLUG_MYSQL_HOST || '127.0.0.1',
+        port: env.SEQ_SLUG_MYSQL_PORT || 3306,
+        logging: false,
+      });
+      this.modelOptions.charset = 'utf8';
+    } else if (this.dialect === 'mariadb') {
+      this.sequelize = new Sequelize({
+        dialect: 'mariadb',
+        database: env.SEQ_SLUG_DB || 'sequelize_slugify_test',
+        username: env.SEQ_SLUG_MARIADB_USER || 'mariadb',
+        password: env.SEQ_SLUG_MARIADB_PW || 'mariadb',
+        host: env.SEQ_SLUG_MARIADB_HOST || '127.0.0.1',
+        port: env.SEQ_SLUG_MARIADB_PORT || 3306,
+        logging: false,
+      });
+      this.modelOptions.charset = 'utf8';
+    } else if (this.dialect === 'mssql') {
+      this.sequelize = new Sequelize({
+        dialect: 'mssql',
+        database: env.SEQ_SLUG_DB || 'sequelize_slugify_test',
+        username: env.SEQ_SLUG_MSSQL_USER || 'sa',
+        password: env.SEQ_SLUG_MSSQL_PW || 'mssql',
+        host: env.SEQ_SLUG_MSSQL_HOST || 'localhost',
+        port: env.SEQ_SLUG_MSSQL_PORT || 1433,
+        logging: false,
+      });
     } else {
-      throw new Error('Invalid DIALECT for testing');
+      throw new Error(`Invalid DIALECT:${this.dialect} for testing`);
     }
 
     faker.seed(42);
     this.global.sequelize = this.sequelize;
-    this.global.generateModel = this.generateModel;
+    this.global.generateModel = this.generateModel.bind(this);
     this.global.createUser = this.createUser;
-    this.global.slugifyModel = SequelizeSlugify.slugifyModel;
+    this.global.generateGivenName = () => {
+      return faker.name.firstName();
+    };
+    this.global.generateFamilyName = ()=> {
+      return faker.name.lastName();
+    };
   }
 
   async teardown() {
-    this.global.Sequelize = null;
+    if(this.global.sequelize) {
+      await this.global.sequelize.close();
+    }
     await super.teardown();
   }
 
@@ -46,14 +98,15 @@ class SequelizeEnvironment extends NodeEnvironment {
   async generateModel(options = {}) {
     this.modelCounter++;
 
-    const User = this.sequelize.define(`TestUser${this.modelCounter}`, {
+    const mergedOptions = Object.assign({}, this.modelOptions, options);
+    const uniqueTableId = `TestUser-${process.pid}-${this.modelCounter}`;
+    const User = this.sequelize.define(uniqueTableId, {
       slug: {
         type: Sequelize.STRING,
         unique: true,
       },
       alternateSlug: {
         type: Sequelize.STRING,
-        unique: true,
       },
       givenName: {
         type: Sequelize.STRING,
@@ -71,7 +124,7 @@ class SequelizeEnvironment extends NodeEnvironment {
         type: Sequelize.INTEGER,
         allowNull: true,
       },
-    }, Object.assign({}, this.modelOptions, options));
+    }, mergedOptions);
 
     await this.sequelize.sync({force: true});
     return User;
