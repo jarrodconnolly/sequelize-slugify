@@ -2,7 +2,7 @@ version: '2'
 
 services:
 
-  postgres-95:
+  postgres:
     image: postgres:9.5
     environment:
       POSTGRES_USER: sequelize_slugify_test
@@ -12,7 +12,7 @@ services:
       - "8195:5432"
     container_name: postgres-95
 
-  mysql-57:
+  mysql:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -23,7 +23,7 @@ services:
       - "8257:3306"
     container_name: mysql-57
 
-  mariadb-103:
+  mariadb:
     image: mariadb:10.3
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -41,4 +41,4 @@ services:
       SA_PASSWORD: Sequelize!!Slugify
     ports:
       - "8400:1433"
-    container_name: mssql
+    container_name: mssql-2017

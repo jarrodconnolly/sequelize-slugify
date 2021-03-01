@@ -4,6 +4,7 @@
 
 * [Home](main.md)
 * [Installation](install.md)
+* [Testing](testing.md)
 
 ### API
 
