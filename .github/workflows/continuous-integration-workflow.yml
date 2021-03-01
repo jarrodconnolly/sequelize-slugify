@@ -178,3 +178,42 @@ jobs:
         env:
           SEQ_SLUG_MARIADB_PORT: 3306
         run: npm run test-unit-mariadb
+
+  test-mssql:
+    name: Test-${{ matrix.node-versions.name }}-${{ matrix.mssql-versions.name }}
+    runs-on: ubuntu-latest
+    needs: test-sqlite
+    strategy:
+      fail-fast: false
+      matrix:
+        node-versions:
+          - {name: 'Node.js 14', version: '14'}
+        mssql-versions:
+          - {name: 'MSSQL 2017', version: '2017'}
+          - {name: 'MSSQL 2019', version: '2019'}
+    services:
+      mariadb:
+        image: mcr.microsoft.com/mssql/server:${{ matrix.mssql-versions.version }}-latest
+        env:
+          ACCEPT_EULA: "Y"
+          SA_PASSWORD: Sequelize!!Slugify
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Sequelize!!Slugify -l 30 -Q \"SELECT 1\" || exit 1"
+          --health-start-period 10s
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - run: /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "Sequelize!!Slugify" -Q "CREATE DATABASE sequelize_slugify_test; ALTER DATABASE sequelize_slugify_test SET READ_COMMITTED_SNAPSHOT ON;"
+      - uses: actions/checkout@v2
+      - name: Installing ${{ matrix.node-versions.name }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-versions.version }}
+      - run: npm ci
+      - name: run tests
+        env:
+          SEQ_SLUG_MSSQL_PORT=1433
+        run: npm run test-unit-mssql
