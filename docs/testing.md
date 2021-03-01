@@ -5,7 +5,7 @@ Tests for Sequelize Slugify use the Jest test framework.
 #### Local
 Unit tests run without external database dependencies using SQLite.
 ```shell
-npm run test-unit
+npm run test
 ```
 #### Docker
 Testing the supported databases uses Docker and docker-compose.
@@ -32,4 +32,10 @@ npm run test-unit-mariadb
 ```
 ```shell
 npm run test-unit-mssql
+```
+
+### MSSQL
+To prepare the MSSQL database the first time, run this command once.
+```shell
+./scripts/setup-mssql.sh
 ```

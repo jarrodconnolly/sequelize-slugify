@@ -55,18 +55,19 @@
     "tedious": "11.0.4"
   },
   "scripts": {
-    "test-unit": "npm run test-unit-sqlite",
+    "test": "npm run test-unit-sqlite",
     "test-unit-sqlite": "cross-env DIALECT=sqlite jest",
     "test-unit-postgres": "cross-env DIALECT=postgres jest",
     "test-unit-mysql": "cross-env DIALECT=mysql jest",
     "test-unit-mariadb": "cross-env DIALECT=mariadb jest",
     "test-unit-mssql": "cross-env DIALECT=mssql jest",
+    "test-unit-all": "npm run test-unit-sqlite && npm run test-unit-postgres && npm run test-unit-mysql && npm run test-unit-mssql",
     "cover-unit": "cross-env DIALECT=sqlite jest --coverage=true",
     "cover-report": "codecov --disable=gcov --file=coverage/lcov.info",
     "docs:build": "honkit build",
     "docs:serve": "honkit serve",
     "docs:publish": "npm run docs:build && gh-pages --dist _book --branch docs --dotfiles",
-    "lint": "eslint --ignore-path .gitignore --config .eslintrc.js .",
+    "lint": "eslint --format table --ignore-path .gitignore --config .eslintrc.js .",
     "lint:report": "eslint --ignore-path .gitignore --config .eslintrc.js --output-file eslint_report.json --format json .",
     "release": "standard-version --sign"
   }
