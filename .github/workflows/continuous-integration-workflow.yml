@@ -1,5 +1,11 @@
 name: Continuous Integration
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 env:
   SEQ_SLUG_DB: sequelize_slugify_test
@@ -116,7 +122,7 @@ jobs:
       fail-fast: false
       matrix:
         node-versions:
-          - {name: 'Node.js 13', version: '13'}
+          - {name: 'Node.js 14', version: '14'}
         mysql-versions:
           - {name: 'MySQL 5.7', version: '5.7'}
           - {name: 'MySQL 8',   version: '8'}
