@@ -26,6 +26,21 @@ describe('slug generation', () => {
     expect(updatedUser.slug).toBe(expectedValue2);
   });
 
+  it('should overwrite slug using update', async () => {
+    SequelizeSlugify.slugifyModel(User, {source: ['givenName']});
+    const user = await User.create(userData);
+    const expectedValue1 = `${userData.givenName.toLowerCase()}`;
+    expect(user.slug).toBe(expectedValue1);
+
+    const newGivenName = global.generateGivenName();
+    const updatedUser = await user.update({
+      givenName: newGivenName
+    });
+
+    const expectedValue2 = `${newGivenName.toLowerCase()}`;
+    expect(updatedUser.slug).toBe(expectedValue2);
+  });
+
   it('should not overwrite if source does not change', async () => {
     SequelizeSlugify.slugifyModel(User, {source: ['givenName']});
     const user = await User.create(userData);
