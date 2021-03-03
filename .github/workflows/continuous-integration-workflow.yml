@@ -1,14 +1,23 @@
 name: Continuous Integration
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  SEQ_SLUG_DB: sequelize_slugify_test
 
 jobs:
   lint:
-    name: Code Linting - ${{ matrix.node-versions.name }}
+    name: ESLint-${{ matrix.node-versions.name }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-versions:
-          - {name: 'Node 10', version: '10'}
+          - {name: 'Node.js 14', version: '14'}
     steps:
       - uses: actions/checkout@v2
       - name: Installing ${{ matrix.node-versions.name }}
@@ -23,15 +32,14 @@ jobs:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           report-json: "eslint_report.json"
 
-  test-sqlite:
-    name: Test - ${{ matrix.node-versions.name }}/SQLite
+  test-coverage:
+    name: Coverage-${{ matrix.node-versions.name }}
     runs-on: ubuntu-latest
+    needs: lint
     strategy:
       matrix:
         node-versions:
-          - {name: 'Node 10', version: '10'}
-          - {name: 'Node 12', version: '12'}
-          - {name: 'Node 14', version: '14'}
+          - {name: 'Node.js 14', version: '14'}
     steps:
       - uses: actions/checkout@v2
       - name: Installing ${{ matrix.node-versions.name }}
@@ -39,31 +47,53 @@ jobs:
         with:
           node-version: ${{ matrix.node-versions.version }}
       - run: npm ci
-      - run: npm run test:sqlite
+      - run: npm run cover-unit
       - name: report coverage
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: npm run report-coverage
+        run: npm run cover-report
 
-  test-pg:
-    name: Test - ${{ matrix.node-versions.name }}/${{ matrix.postgres-versions.name }}
+  test-sqlite:
+    name: Test-${{ matrix.node-versions.name }}-SQLite
     runs-on: ubuntu-latest
+    needs: test-coverage
     strategy:
       matrix:
         node-versions:
-          - {name: 'Node 10', version: '10'}
+          - {name: 'Node.js 10', version: '10'}
+          - {name: 'Node.js 12', version: '12'}
+          - {name: 'Node.js 14', version: '14'}
+          - {name: 'Node.js 15', version: '15'}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Installing ${{ matrix.node-versions.name }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-versions.version }}
+      - run: npm ci
+      - run: npm run test-unit-sqlite
+
+  test-pg:
+    name: Test-${{ matrix.node-versions.name }}-${{ matrix.postgres-versions.name }}
+    runs-on: ubuntu-latest
+    needs: test-sqlite
+    strategy:
+      fail-fast: false
+      matrix:
+        node-versions:
+          - {name: 'Node.js 14', version: '14'}
         postgres-versions:
           - {name: 'Postgres 9.5', version: '9.5'}
-          - {name: 'Postgres 10', version: '10'}
-          - {name: 'Postgres 11', version: '11'}
-          - {name: 'Postgres 12', version: '12'}
-          - {name: 'Postgres 13', version: '13'}
+          - {name: 'Postgres 10',  version: '10'}
+          - {name: 'Postgres 11',  version: '11'}
+          - {name: 'Postgres 12',  version: '12'}
+          - {name: 'Postgres 13',  version: '13'}
     services:
       postgres:
         image: postgres:${{ matrix.postgres-versions.version }}
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: sequelize_slugify_test
+          POSTGRES_PASSWORD: sequelize_slugify_test
           POSTGRES_DB: sequelize_slugify_test
         ports:
         - 5432:5432
@@ -81,29 +111,29 @@ jobs:
       - run: npm ci
       - name: run tests
         env:
-          DB_PW: postgres
-        run: npm run test:pg
-      - name: report coverage
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: npm run report-coverage
+          SEQ_SLUG_PG_PORT: 5432
+        run: npm run test-unit-postgres
 
   test-mysql:
-    name: Test - ${{ matrix.node-versions.name }}/${{ matrix.mysql-versions.name }}
+    name: Test-${{ matrix.node-versions.name }}-${{ matrix.mysql-versions.name }}
     runs-on: ubuntu-latest
+    needs: test-sqlite
     strategy:
+      fail-fast: false
       matrix:
         node-versions:
-          - {name: 'Node 10', version: '10'}
+          - {name: 'Node.js 14', version: '14'}
         mysql-versions:
           - {name: 'MySQL 5.7', version: '5.7'}
-          - {name: 'MySQL 8', version: '8'}
+          - {name: 'MySQL 8',   version: '8'}
     services:
       mysql:
         image: mysql:${{ matrix.mysql-versions.version }}
         env:
-          MYSQL_ROOT_PASSWORD: rootroot
+          MYSQL_ROOT_PASSWORD: rootpassword
           MYSQL_DATABASE: sequelize_slugify_test
+          MYSQL_USER: sequelize_slugify_test
+          MYSQL_PASSWORD: sequelize_slugify_test
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -115,22 +145,20 @@ jobs:
           node-version: ${{ matrix.node-versions.version }}
       - run: npm ci
       - name: run tests
-        run: npm run test:mysql
-      - name: report coverage
         env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: npm run report-coverage
+          SEQ_SLUG_MYSQL_PORT: 3306
+        run: npm run test-unit-mysql
 
   test-mariadb:
-    name: Test - ${{ matrix.node-versions.name }}/${{ matrix.mariadb-versions.name }}
+    name: Test-${{ matrix.node-versions.name }}-${{ matrix.mariadb-versions.name }}
     runs-on: ubuntu-latest
+    needs: test-sqlite
     strategy:
+      fail-fast: false
       matrix:
         node-versions:
-          - {name: 'Node 10', version: '10'}
+          - {name: 'Node.js 14', version: '14'}
         mariadb-versions:
-          - {name: 'MariaDB 10.1', version: '10.1'}
-          - {name: 'MariaDB 10.2', version: '10.2'}
           - {name: 'MariaDB 10.3', version: '10.3'}
           - {name: 'MariaDB 10.4', version: '10.4'}
           - {name: 'MariaDB 10.5', version: '10.5'}
@@ -138,8 +166,10 @@ jobs:
       mariadb:
         image: mariadb:${{ matrix.mariadb-versions.version }}
         env:
-          MYSQL_ROOT_PASSWORD: rootroot
+          MYSQL_ROOT_PASSWORD: rootpassword
           MYSQL_DATABASE: sequelize_slugify_test
+          MYSQL_USER: sequelize_slugify_test
+          MYSQL_PASSWORD: sequelize_slugify_test
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -151,8 +181,45 @@ jobs:
           node-version: ${{ matrix.node-versions.version }}
       - run: npm ci
       - name: run tests
-        run: npm run test:mariadb
-      - name: report coverage
         env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: npm run report-coverage
+          SEQ_SLUG_MARIADB_PORT: 3306
+        run: npm run test-unit-mariadb
+
+  test-mssql:
+    name: Test-${{ matrix.node-versions.name }}-${{ matrix.mssql-versions.name }}
+    runs-on: ubuntu-latest
+    needs: test-sqlite
+    strategy:
+      fail-fast: false
+      matrix:
+        node-versions:
+          - {name: 'Node.js 14', version: '14'}
+        mssql-versions:
+          - {name: 'MSSQL 2017', version: '2017'}
+          - {name: 'MSSQL 2019', version: '2019'}
+    services:
+      mariadb:
+        image: mcr.microsoft.com/mssql/server:${{ matrix.mssql-versions.version }}-latest
+        env:
+          ACCEPT_EULA: "Y"
+          SA_PASSWORD: Sequelize!!Slugify
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Sequelize!!Slugify -l 30 -Q \"SELECT 1\" || exit 1"
+          --health-start-period 10s
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - run: /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "Sequelize!!Slugify" -Q "CREATE DATABASE sequelize_slugify_test; ALTER DATABASE sequelize_slugify_test SET READ_COMMITTED_SNAPSHOT ON;"
+      - uses: actions/checkout@v2
+      - name: Installing ${{ matrix.node-versions.name }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-versions.version }}
+      - run: npm ci
+      - name: run tests
+        env:
+          SEQ_SLUG_MSSQL_PORT: 1433
+        run: npm run test-unit-mssql
