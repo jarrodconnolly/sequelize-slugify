@@ -2,6 +2,6 @@
 
 module.exports = {
   "scripts": {
-    "prerelease": "npm run lint && npm run test:sqlite"
+    "prerelease": "npm run lint && npm run cover-unit"
   }
 };
