@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.4.0...v1.5.0) (2021-03-06)
+
+
+### Features
+
+* support for optional bulk update slug regeneration ([b357502](https://github.com/jarrodconnolly/sequelize-slugify/commit/b35750284b3b1ce2a1fa56a637dbad6315c73ea9))
+
 ## [1.4.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.3.2...v1.4.0) (2021-02-07)
 
 
