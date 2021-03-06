@@ -14,6 +14,7 @@
     "url": "https://github.com/jarrodconnolly/sequelize-slugify/issues"
   },
   "main": "index",
+  "types": "types",
   "engines": {
     "node": ">=10.9.0"
   },
@@ -52,7 +53,8 @@
     "sequelize": "6.5.0",
     "sqlite3": "5.0.2",
     "standard-version": "9.1.1",
-    "tedious": "11.0.4"
+    "tedious": "11.0.4",
+    "typescript": "4.2.3"
   },
   "scripts": {
     "test": "npm run test-unit-sqlite",
