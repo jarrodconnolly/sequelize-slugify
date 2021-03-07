@@ -19,6 +19,7 @@
 * GitHub Actions CI tests 
   * PostgreSQL
   * MySQL
+  * MariaDB
   * SQLite
   * MSSQL
 
