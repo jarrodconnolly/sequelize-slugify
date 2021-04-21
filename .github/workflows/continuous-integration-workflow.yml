@@ -63,7 +63,7 @@ jobs:
           - {name: 'Node.js 10', version: '10'}
           - {name: 'Node.js 12', version: '12'}
           - {name: 'Node.js 14', version: '14'}
-          - {name: 'Node.js 15', version: '15'}
+          - {name: 'Node.js 16', version: '16'}
     steps:
       - uses: actions/checkout@v2
       - name: Installing ${{ matrix.node-versions.name }}
