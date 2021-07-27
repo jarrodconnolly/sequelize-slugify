@@ -20,7 +20,7 @@ class SequelizeEnvironment extends NodeEnvironment {
     this.modelOptions = {};
     this.modelCounter = 0;
 
-    if (this.dialect === 'sqlite') {
+    if (!this.dialect || this.dialect === 'sqlite') {
       this.sequelize = new Sequelize({
         dialect: 'sqlite',
         storage: ':memory:',
@@ -74,6 +74,7 @@ class SequelizeEnvironment extends NodeEnvironment {
 
     faker.seed(42);
     this.global.sequelize = this.sequelize;
+    this.global.DataTypes = Sequelize.DataTypes;
     this.global.generateModel = this.generateModel.bind(this);
     this.global.createUser = this.createUser;
     this.global.generateGivenName = () => {
@@ -135,7 +136,7 @@ class SequelizeEnvironment extends NodeEnvironment {
       givenName: faker.name.firstName(),
       familyName: faker.name.lastName(),
       nickName: faker.lorem.word(),
-      age: faker.random.number()
+      age: faker.datatype.number()
     };
   }
 }

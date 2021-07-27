@@ -42,4 +42,34 @@ describe('slug generation', () => {
     const user = await User.create(userData);
     expect(user.slug).toBe(null);
   });
+
+  it('should create a slug from a VIRTUAL field', async () => {
+    const uniqueTableId = `TestUser-${process.pid}-VIRTUAL`;
+    const User = global.sequelize.define(uniqueTableId, {
+      slug: {
+        type: global.DataTypes.STRING,
+        unique: true,
+      },
+      givenName: {
+        type: global.DataTypes.STRING,
+        allowNull: false,
+      },
+      _givenName: {
+        type: global.DataTypes.VIRTUAL,
+        get() {
+          return `VIRTUAL-${this.get('givenName')}`;
+        }
+      }
+    });
+    await global.sequelize.sync({force: true});
+    SequelizeSlugify.slugifyModel(User, {source: ['_givenName']});
+    const user = await User.create(userData);
+
+    // Unable to detect if VIRTUAL field has changed
+    // regenerateSlug manually :(
+    await user.regenerateSlug();
+
+    const expectedValue = `virtual-${userData.givenName.toLowerCase()}`;
+    expect(user.slug).toBe(expectedValue);
+  });
 });
