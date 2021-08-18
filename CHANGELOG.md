@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.5.0...v1.6.0) (2021-08-18)
+
+
+### Features
+
+* include ts types in npm package ([920e1c9](https://github.com/jarrodconnolly/sequelize-slugify/commit/920e1c96ee18cc71be6f5e5e2bbc4593d78d6bbd))
+
 ## [1.5.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.4.0...v1.5.0) (2021-03-06)
 
 
