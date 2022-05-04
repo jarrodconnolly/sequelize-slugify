@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         node-versions:
-          - {name: 'Node.js 14', version: '14'}
+          - {name: 'Node.js 16', version: '16'}
     steps:
       - uses: actions/checkout@v2
       - name: Installing ${{ matrix.node-versions.name }}
@@ -39,7 +39,7 @@ jobs:
     strategy:
       matrix:
         node-versions:
-          - {name: 'Node.js 14', version: '14'}
+          - {name: 'Node.js 16', version: '16'}
     steps:
       - uses: actions/checkout@v2
       - name: Installing ${{ matrix.node-versions.name }}
@@ -64,6 +64,7 @@ jobs:
           - {name: 'Node.js 12', version: '12'}
           - {name: 'Node.js 14', version: '14'}
           - {name: 'Node.js 16', version: '16'}
+          - {name: 'Node.js 18', version: '18'}
     steps:
       - uses: actions/checkout@v2
       - name: Installing ${{ matrix.node-versions.name }}
@@ -81,7 +82,7 @@ jobs:
       fail-fast: false
       matrix:
         node-versions:
-          - {name: 'Node.js 14', version: '14'}
+          - {name: 'Node.js 16', version: '16'}
         postgres-versions:
           - {name: 'Postgres 9.5', version: '9.5'}
           - {name: 'Postgres 10',  version: '10'}
@@ -122,7 +123,7 @@ jobs:
       fail-fast: false
       matrix:
         node-versions:
-          - {name: 'Node.js 14', version: '14'}
+          - {name: 'Node.js 16', version: '16'}
         mysql-versions:
           - {name: 'MySQL 5.7', version: '5.7'}
           - {name: 'MySQL 8',   version: '8'}
@@ -157,7 +158,7 @@ jobs:
       fail-fast: false
       matrix:
         node-versions:
-          - {name: 'Node.js 14', version: '14'}
+          - {name: 'Node.js 16', version: '16'}
         mariadb-versions:
           - {name: 'MariaDB 10.3', version: '10.3'}
           - {name: 'MariaDB 10.4', version: '10.4'}
@@ -193,7 +194,7 @@ jobs:
       fail-fast: false
       matrix:
         node-versions:
-          - {name: 'Node.js 14', version: '14'}
+          - {name: 'Node.js 16', version: '16'}
         mssql-versions:
           - {name: 'MSSQL 2017', version: '2017'}
           - {name: 'MSSQL 2019', version: '2019'}
