@@ -2,7 +2,7 @@
 
 const NodeEnvironment = require('jest-environment-node');
 const Sequelize = require('sequelize');
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 const dotenv = require('dotenv');
 
 class SequelizeEnvironment extends NodeEnvironment {
