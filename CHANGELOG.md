@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.6.0...v1.6.1) (2022-05-04)
+
+
+### Bug Fixes
+
+* update missing `bulkUpdate` option in published types ([ba2785f](https://github.com/jarrodconnolly/sequelize-slugify/commit/ba2785fb5342ee9f0d9dfc03d3be864330363c8f))
+
 ## [1.6.0](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.5.0...v1.6.0) (2021-08-18)
 
 
