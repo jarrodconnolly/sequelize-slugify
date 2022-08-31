@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.2](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.6.1...v1.6.2) (2022-08-31)
+
+
+### Bug Fixes
+
+* change model parameter type to `ModelStatic` [typescript] ([#55](https://github.com/jarrodconnolly/sequelize-slugify/issues/55)) ([3c8b5ea](https://github.com/jarrodconnolly/sequelize-slugify/commit/3c8b5ea584e8cbead900e02f1a665e1483a4b6dd))
+
 ### [1.6.1](https://github.com/jarrodconnolly/sequelize-slugify/compare/v1.6.0...v1.6.1) (2022-05-04)
 
 
