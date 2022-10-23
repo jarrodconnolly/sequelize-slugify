@@ -72,4 +72,17 @@ describe('slug generation', () => {
     const expectedValue = `virtual-${userData.givenName.toLowerCase()}`;
     expect(user.slug).toBe(expectedValue);
   });
+
+  it('should not create slug if override is used', async () => {
+    SequelizeSlugify.slugifyModel(User, {source: ['givenName'], slugOverride: 'slug_custom'});
+    const user = await User.create(userData);
+    const expectedValue = `${userData.givenName.toLowerCase()}`;
+    expect(user.slug).toBe(expectedValue);
+
+    const customSlug = global.generateRandomWord();
+    user.slug_custom = customSlug;
+    const updatedUser = await user.save();
+    const expectedValue2 = `${customSlug.toLowerCase()}`;
+    expect(updatedUser.slug).toBe(expectedValue2);
+  });
 });

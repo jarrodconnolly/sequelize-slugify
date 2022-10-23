@@ -83,6 +83,9 @@ class SequelizeEnvironment extends NodeEnvironment {
     this.global.generateFamilyName = ()=> {
       return faker.name.lastName();
     };
+    this.global.generateRandomWord = () => {
+      return faker.word.noun();
+    };
   }
 
   async teardown() {
