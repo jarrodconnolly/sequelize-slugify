@@ -24,7 +24,7 @@ services:
     container_name: mysql-57
 
   mariadb:
-    image: mariadb:10.3
+    image: mariadb:10.6
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: sequelize_slugify_test
@@ -32,13 +32,13 @@ services:
       MYSQL_PASSWORD: sequelize_slugify_test
     ports:
       - "8313:3306"
-    container_name: mariadb-103
+    container_name: mariadb-106
 
   mssql:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: Sequelize!!Slugify
+      MSSQL_SA_PASSWORD: "Sequelize22Slugify"
     ports:
       - "8400:1433"
-    container_name: mssql-2017
+    container_name: mssql-2022

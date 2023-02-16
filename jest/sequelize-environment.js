@@ -1,6 +1,6 @@
 'use strict';
 
-const NodeEnvironment = require('jest-environment-node');
+const NodeEnvironment = require('jest-environment-node').default;
 const Sequelize = require('sequelize');
 const { faker } = require('@faker-js/faker');
 const dotenv = require('dotenv');

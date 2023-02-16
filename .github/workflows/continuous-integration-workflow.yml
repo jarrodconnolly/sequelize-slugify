@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         node-versions:
-          - {name: 'Node.js 16', version: '16'}
+          - {name: 'Node.js 18', version: '18'}
     steps:
       - uses: actions/checkout@v2
       - name: Installing ${{ matrix.node-versions.name }}
@@ -39,7 +39,7 @@ jobs:
     strategy:
       matrix:
         node-versions:
-          - {name: 'Node.js 16', version: '16'}
+          - {name: 'Node.js 18', version: '18'}
     steps:
       - uses: actions/checkout@v2
       - name: Installing ${{ matrix.node-versions.name }}
@@ -60,11 +60,10 @@ jobs:
     strategy:
       matrix:
         node-versions:
-          - {name: 'Node.js 10', version: '10'}
-          - {name: 'Node.js 12', version: '12'}
           - {name: 'Node.js 14', version: '14'}
           - {name: 'Node.js 16', version: '16'}
           - {name: 'Node.js 18', version: '18'}
+          - {name: 'Node.js 19', version: '19'}
     steps:
       - uses: actions/checkout@v2
       - name: Installing ${{ matrix.node-versions.name }}
@@ -82,13 +81,15 @@ jobs:
       fail-fast: false
       matrix:
         node-versions:
-          - {name: 'Node.js 16', version: '16'}
+          - {name: 'Node.js 18', version: '18'}
         postgres-versions:
           - {name: 'Postgres 9.5', version: '9.5'}
           - {name: 'Postgres 10',  version: '10'}
           - {name: 'Postgres 11',  version: '11'}
           - {name: 'Postgres 12',  version: '12'}
           - {name: 'Postgres 13',  version: '13'}
+          - {name: 'Postgres 14',  version: '14'}
+          - {name: 'Postgres 15',  version: '15'}
     services:
       postgres:
         image: postgres:${{ matrix.postgres-versions.version }}
@@ -123,7 +124,7 @@ jobs:
       fail-fast: false
       matrix:
         node-versions:
-          - {name: 'Node.js 16', version: '16'}
+          - {name: 'Node.js 18', version: '18'}
         mysql-versions:
           - {name: 'MySQL 5.7', version: '5.7'}
           - {name: 'MySQL 8',   version: '8'}
@@ -158,11 +159,12 @@ jobs:
       fail-fast: false
       matrix:
         node-versions:
-          - {name: 'Node.js 16', version: '16'}
+          - {name: 'Node.js 18', version: '18'}
         mariadb-versions:
           - {name: 'MariaDB 10.3', version: '10.3'}
           - {name: 'MariaDB 10.4', version: '10.4'}
           - {name: 'MariaDB 10.5', version: '10.5'}
+          - {name: 'MariaDB 10.6', version: '10.6'}
     services:
       mariadb:
         image: mariadb:${{ matrix.mariadb-versions.version }}
@@ -194,26 +196,27 @@ jobs:
       fail-fast: false
       matrix:
         node-versions:
-          - {name: 'Node.js 16', version: '16'}
+          - {name: 'Node.js 18', version: '18'}
         mssql-versions:
           - {name: 'MSSQL 2017', version: '2017'}
           - {name: 'MSSQL 2019', version: '2019'}
+          - {name: 'MSSQL 2022', version: '2022'}
     services:
-      mariadb:
+      mssql:
         image: mcr.microsoft.com/mssql/server:${{ matrix.mssql-versions.version }}-latest
         env:
           ACCEPT_EULA: "Y"
-          SA_PASSWORD: Sequelize!!Slugify
+          MSSQL_SA_PASSWORD: Sequelize22Slugify
         ports:
           - 1433:1433
         options: >-
-          --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Sequelize!!Slugify -l 30 -Q \"SELECT 1\" || exit 1"
+          --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Sequelize22Slugify -l 30 -Q \"SELECT 1\" || exit 1"
           --health-start-period 10s
           --health-interval 10s
           --health-timeout 5s
           --health-retries 10
     steps:
-      - run: /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "Sequelize!!Slugify" -Q "CREATE DATABASE sequelize_slugify_test; ALTER DATABASE sequelize_slugify_test SET READ_COMMITTED_SNAPSHOT ON;"
+      - run: /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "Sequelize22Slugify" -Q "CREATE DATABASE sequelize_slugify_test; ALTER DATABASE sequelize_slugify_test SET READ_COMMITTED_SNAPSHOT ON;"
       - uses: actions/checkout@v2
       - name: Installing ${{ matrix.node-versions.name }}
         uses: actions/setup-node@v1
